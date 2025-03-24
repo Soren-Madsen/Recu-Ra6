@@ -1,0 +1,18 @@
+body {
+    background-color: #646464;
+  }
+  h1{
+    color: white;
+  }
+  h2{
+    color: white;
+  }
+  h3{
+    color: white;
+  }
+
+  #rectangle{
+    background-color: #1E1E1E;
+    width: 500px;
+    padding: 10px;
+  }
