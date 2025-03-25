@@ -11,6 +11,7 @@
     <title>CineFest Catalunya</title>
 </head>
 
+
 <body>
     <h1>INICIA SESIÓN</h1>
     <h2>Introduce el correo electronico y la contraseña de tu cuenta CFC.</h2>
