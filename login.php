@@ -14,7 +14,7 @@
 
 <body>
     <h1>INICIA SESIÓN</h1>
-    <h2>Introduce el correo electronico y la contraseña de tu cuenta CFC.</h2>
+    <h2>Introduce el correo electronasfas y la contraseña de tu cuenta CFC.</h2>
     <div id="rectangle">
         <form action="" method="POST">
             <!-- DIRECCION DE CORREO ELECTRONICO -->
