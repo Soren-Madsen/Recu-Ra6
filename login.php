@@ -12,7 +12,6 @@
 </head>
 
 
-
 <body>
     <h1>INICIA SESIÓN</h1>
     <h2>Introduce el correo electrónico y la contraseña de tu cuenta CFC.</h2>
