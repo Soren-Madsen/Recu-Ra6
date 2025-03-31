@@ -1,18 +1,49 @@
 body {
-    background-color: #646464;
-  }
-  h1{
-    color: white;
-  }
-  h2{
-    color: white;
-  }
-  h3{
-    color: white;
-  }
+  background-color: #646464;
+}
 
-  #rectangle{
-    background-color: #1E1E1E;
-    width: 500px;
-    padding: 10px;
+h1 {
+  color: white;
+
+}
+
+h2 {
+  color: white;
+}
+
+h3 {
+  color: white;
+}
+
+#rectangle {
+  margin: auto;
+
+  background-color: #1E1E1E;
+  width: 500px;
+  padding: 10px;
+}
+
+#login {
+  background-color: #646464;
+  color: white;
+
+  p.solid {
+    border-style: solid;
   }
+}
+
+#signin {
+  background-color: #646464;
+  color: white;
+}
+
+
+#T_EmailContraseña {
+  margin: auto;
+  text-align: center;
+}
+
+#T_IniciaSession {
+  margin: auto;
+  text-align: center;
+}
