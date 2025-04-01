@@ -23,16 +23,22 @@
     <div id="rectangle">
         <form action="" method="POST">
             <!-- DIRECCION DE CORREO ELECTRONICO -->
+
             <label for="name">
                 <h2>Dirección de correo electrónico:</h2>
             </label>
-            <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
+            <div class="TextBox">
+                <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
+            </div>
 
             <!-- PASSWORD -->
             <label for="name">
                 <h2>Contraseña:</h2>
+                <div class="TextBox">
+
             </label>
-            <input type="password" name="password" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" /><br>
+                <input type="password" name="password" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" /><br>
+            </div>
 
             <h3>
                 <link href="" value="">¿Has olvidado tu contraseña?
