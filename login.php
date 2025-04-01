@@ -24,15 +24,15 @@
         <form action="" method="POST">
             <!-- DIRECCION DE CORREO ELECTRONICO -->
 
-            <label for="name">
+            <label for="email">
                 <h2>Dirección de correo electrónico:</h2>
             </label>
             <div id="TextBox">
-                <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
+                <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
             </div>
 
             <!-- PASSWORD -->
-            <label for="name">
+            <label for="password">
                 <h2>Contraseña:</h2>
                 <div id="TextBox">
 
