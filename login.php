@@ -1,6 +1,4 @@
-<?php
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +12,9 @@
 
 
 <body>
+<?php
+
+?>
     <div id="T_IniciaSession">
         <h1>INICIA SESIÓN</h1>
     </div>
@@ -47,6 +48,7 @@
             <input type="submit" id="login" value="Inicia sesión" />
             <!-- SIGNIN -->
             <input type="submit" id="signin" value="Registrarme" />
+
         </form>
     </div>
 </body>
