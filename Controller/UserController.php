@@ -37,7 +37,7 @@ class UserController
     {
         // Login logic
     }
-
+    
     /**
      * logout user from application
      */
@@ -48,6 +48,51 @@ class UserController
 
     public function register(): void
     {
-        // Logout logic
+    
+        // Register logic
+ 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name1 = htmlspecialchars($_POST['name1']);
+    $date1 = htmlspecialchars($_POST['date1']);
+    $url1 = htmlspecialchars($_POST['url1']);
+    $marcas = htmlspecialchars($_POST['marcas1']);
+    $germans1 = htmlspecialchars($_POST['germans1']);
+    $genero = htmlspecialchars($_POST['genero']);
+    $home = htmlspecialchars($_POST['home']);
+    $dona = htmlspecialchars($_POST['dona']);
+    $menjar = htmlspecialchars($_POST['menjar']);
+    $xocolata = htmlspecialchars($_POST['xocolata']);
+    $pa = htmlspecialchars($_POST['pa']);
+    $bledes = htmlspecialchars($_POST['bledes']);
+    $llenties = htmlspecialchars($_POST['llenties']);
+
+}
+echo  "Nom: " . $name1 . "<br>";
+echo  "Naixement: " . $date1 . "<br>";
+echo  "Blog: " . $url1 . "<br>";
+echo  "Germans: ". $germans1 . "<br>";
+echo  "Marca: " . $marcas . "<br>";
+
+if (isset($genero) && $genero=="Home") {
+    echo "Home: Marcado" . "<br>";
+}
+if (isset($genero) && $genero=="Dona") {
+    echo "Dona: Marcado" . "<br>";
+}   
+if (isset($_REQUEST)=="xocolata") {
+    echo "Xocolata: Marcado" . "<br>";
+}
+if (isset($_REQUEST)=="pa") {
+    echo "Pa: Marcado" . "<br>";
+}
+if (isset($_REQUEST)=="bledes") {
+    echo "Bledes: Marcado" . "<br>";
+}
+if (isset($_REQUEST)=="llenties") {
+    echo "Llenties: Marcado" . "<br>";
+}
     }
 }
+?>
