@@ -36,6 +36,8 @@ class UserController
     public function login(): void
     {
         // Login logic
+
+
     }
 
     /**
