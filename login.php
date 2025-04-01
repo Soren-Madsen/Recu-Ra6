@@ -27,14 +27,14 @@
             <label for="name">
                 <h2>Dirección de correo electrónico:</h2>
             </label>
-            <div class="TextBox">
+            <div id="TextBox">
                 <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
             </div>
 
             <!-- PASSWORD -->
             <label for="name">
                 <h2>Contraseña:</h2>
-                <div class="TextBox">
+                <div id="TextBox">
 
             </label>
                 <input type="password" name="password" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" /><br>
