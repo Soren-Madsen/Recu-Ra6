@@ -34,7 +34,7 @@ class UserController
         $servername = "localhost";
         $username = "root"; // Cambiar según la configuración de la BD
         $password = ""; // Cambiar si hay contraseña
-        $database = "cinefest";
+        $database = "CFC";
         
         $conn = new mysqli($servername, $username, $password, $database);
         
@@ -45,7 +45,7 @@ class UserController
         
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST['login'])) {
-                $email = trim($_POST['name']);
+                $email = trim($_POST['email']);
                 $pass = trim($_POST['password']);
         
                 // Evitar inyección SQL
@@ -53,14 +53,14 @@ class UserController
                 $pass = mysqli_real_escape_string($conn, $pass);
         
                 // Verificar usuario en la BD
-                $sql = "SELECT id, password FROM usuarios WHERE email = '$email'";
+                $sql = "SELECT id, password FROM Usuarios WHERE email = '$email'";
                 $result = $conn->query($sql);
         
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     
                     // Verificación de contraseña
-                    if (password_verify($pass, $row['password'])) {
+                    if (password_verify($pass, $row['pssw'])) {
                         $_SESSION['User'] = $row['id'];
                         header("Location: index.php"); // Redirigir a la página principal
                         exit();
