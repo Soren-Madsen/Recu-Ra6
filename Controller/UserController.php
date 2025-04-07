@@ -25,11 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 class UserController
 {
     private $conn;
-    public function __construct()
-    {
+    public function __construct(){
         
        
         
+        
+        
+    }
+
+    /**
+     * login user to application
+     */
+    public function login(): void
+    {
+        // Login logic
+
         // Conexión a la base de datos
         $servername = "localhost";
         $username = "root"; // Cambiar según la configuración de la BD
@@ -77,16 +87,6 @@ class UserController
         }
         $conn->close();
         
-        
-    }
-
-    /**
-     * login user to application
-     */
-    public function login(): void
-    {
-        // Login logic
-
 
     }
     
