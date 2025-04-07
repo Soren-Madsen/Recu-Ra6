@@ -61,8 +61,8 @@ class UserController
                     
                     // Verificación de contraseña
                     if (password_verify($pass, $row['password'])) {
-                        $_SESSION['user_id'] = $row['id'];
-                        header("Location: dashboard.php"); // Redirigir a la página principal
+                        $_SESSION['User'] = $row['id'];
+                        header("Location: index.php"); // Redirigir a la página principal
                         exit();
                     } else {
                         echo "<p style='color:red;'>Contraseña incorrecta.</p>";
