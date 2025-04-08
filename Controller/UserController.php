@@ -1,4 +1,13 @@
 <?php
+
+//
+//login user to application -->
+//recuperar lo que el usuario envio POST -->
+// conectar MySQL -->
+// select users -->
+// evaluar el resultado -->
+// redirigir a donde toca userprofile -->
+// }
 session_start();
 
 // check if form is submitted
@@ -24,13 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 class UserController
 {
+    /** STEP BY STEP LOGIN 
+     * LOGIN USER TO APPLICATION 
+     * RECUPERAR LO QUE EL USUARIO ENVIO $POST
+     * CONECTAR MYSQL
+     * EVALUAR EL RESULTADO
+     * REDIRIGIR A USERPROFILE
+     */
+
     private $conn;
-    public function __construct(){
-        
-       
-        
-        
-        
+    public function __construct() {
+
+
+        // 2. Connectar MySQL
+        // Conexión a la base de datos
+        $servername = "localhost";
+        $username = "root"; // Cambiar según la configuración de la BD
+        $password = ""; // Cambiar si hay contraseña
+        $database = "CFC";
+
+        // Crear connection
+        $this ->conn = new mysqli($servername, $username, $password, $database);
+
+        // Verificar conexión
+        if ($this->conn->connect_error) {
+            die("Conexión failed: " . $this->conn->connect_error);
+        }
+        echo "Completed succesfully.";
     }
 
     /**
@@ -39,36 +68,23 @@ class UserController
     public function login(): void
     {
         // Login logic
+                $email = $_POST(['email']);
+                $pass = $_POST(['password']);
 
-        // Conexión a la base de datos
-        $servername = "localhost";
-        $username = "root"; // Cambiar según la configuración de la BD
-        $password = ""; // Cambiar si hay contraseña
-        $database = "CFC";
-        
-        $conn = new mysqli($servername, $username, $password, $database);
-        
-        // Verificar conexión
-        if ($conn->connect_error) {
-            die("Conexión fallida: " . $conn->connect_error);
-        }
-        
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (isset($_POST['login'])) {
-                $email = trim($_POST['email']);
-                $pass = trim($_POST['password']);
-        
+
+// TERMINAR ESTA PARTE A PARTIR DE AQUI
+
                 // Evitar inyección SQL
                 $email = mysqli_real_escape_string($conn, $email);
                 $pass = mysqli_real_escape_string($conn, $pass);
-        
+
                 // Verificar usuario en la BD
                 $sql = "SELECT id, password FROM Usuarios WHERE email = '$email'";
                 $result = $conn->query($sql);
-        
+
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
-                    
+
                     // Verificación de contraseña
                     if (password_verify($pass, $row['pssw'])) {
                         $_SESSION['User'] = $row['id'];
@@ -86,65 +102,68 @@ class UserController
             }
         }
         $conn->close();
-        
-
     }
-    
+
     /**
      * logout user from application
      */
     public function logout(): void
     {
+        
+    session_start();
+    session_unset();     
+    session_destroy();   
+    header("Location: index.php"); 
+    exit;
+
+
         // Logout logic
     }
 
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
-        // Register logic
- 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Register logic
 
-//     $name1 = htmlspecialchars($_POST['name1']);
-//     $date1 = htmlspecialchars($_POST['date1']);
-//     $url1 = htmlspecialchars($_POST['url1']);
-//     $marcas = htmlspecialchars($_POST['marcas1']);
-//     $germans1 = htmlspecialchars($_POST['germans1']);
-//     $genero = htmlspecialchars($_POST['genero']);
-//     $home = htmlspecialchars($_POST['home']);
-//     $dona = htmlspecialchars($_POST['dona']);
-//     $menjar = htmlspecialchars($_POST['menjar']);
-//     $xocolata = htmlspecialchars($_POST['xocolata']);
-//     $pa = htmlspecialchars($_POST['pa']);
-//     $bledes = htmlspecialchars($_POST['bledes']);
-//     $llenties = htmlspecialchars($_POST['llenties']);
+    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-// }
-// echo  "Nom: " . $name1 . "<br>";
-// echo  "Naixement: " . $date1 . "<br>";
-// echo  "Blog: " . $url1 . "<br>";
-// echo  "Germans: ". $germans1 . "<br>";
-// echo  "Marca: " . $marcas . "<br>";
+    //     $name1 = htmlspecialchars($_POST['name1']);
+    //     $date1 = htmlspecialchars($_POST['date1']);
+    //     $url1 = htmlspecialchars($_POST['url1']);
+    //     $marcas = htmlspecialchars($_POST['marcas1']);
+    //     $germans1 = htmlspecialchars($_POST['germans1']);
+    //     $genero = htmlspecialchars($_POST['genero']);
+    //     $home = htmlspecialchars($_POST['home']);
+    //     $dona = htmlspecialchars($_POST['dona']);
+    //     $menjar = htmlspecialchars($_POST['menjar']);
+    //     $xocolata = htmlspecialchars($_POST['xocolata']);
+    //     $pa = htmlspecialchars($_POST['pa']);
+    //     $bledes = htmlspecialchars($_POST['bledes']);
+    //     $llenties = htmlspecialchars($_POST['llenties']);
 
-// if (isset($genero) && $genero=="Home") {
-//     echo "Home: Marcado" . "<br>";
-// }
-// if (isset($genero) && $genero=="Dona") {
-//     echo "Dona: Marcado" . "<br>";
-// }   
-// if (isset($_REQUEST)=="xocolata") {
-//     echo "Xocolata: Marcado" . "<br>";
-// }
-// if (isset($_REQUEST)=="pa") {
-//     echo "Pa: Marcado" . "<br>";
-// }
-// if (isset($_REQUEST)=="bledes") {
-//     echo "Bledes: Marcado" . "<br>";
-// }
-// if (isset($_REQUEST)=="llenties") {
-//     echo "Llenties: Marcado" . "<br>";
-// }
-//     }
+    // }
+    // echo  "Nom: " . $name1 . "<br>";
+    // echo  "Naixement: " . $date1 . "<br>";
+    // echo  "Blog: " . $url1 . "<br>";
+    // echo  "Germans: ". $germans1 . "<br>";
+    // echo  "Marca: " . $marcas . "<br>";
+
+    // if (isset($genero) && $genero=="Home") {
+    //     echo "Home: Marcado" . "<br>";
+    // }
+    // if (isset($genero) && $genero=="Dona") {
+    //     echo "Dona: Marcado" . "<br>";
+    // }   
+    // if (isset($_REQUEST)=="xocolata") {
+    //     echo "Xocolata: Marcado" . "<br>";
+    // }
+    // if (isset($_REQUEST)=="pa") {
+    //     echo "Pa: Marcado" . "<br>";
+    // }
+    // if (isset($_REQUEST)=="bledes") {
+    //     echo "Bledes: Marcado" . "<br>";
+    // }
+    // if (isset($_REQUEST)=="llenties") {
+    //     echo "Llenties: Marcado" . "<br>";
+    // }
+    //     }
 }
-?>
