@@ -1,5 +1,11 @@
 body {
   background-color: #646464;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 h1 {
@@ -58,7 +64,8 @@ h3 {
   width: 500px;
 }
 
-.LoginCentred {
-  display: flex;
-  
+#LoginCentred {
+  width: 90%;
+  max-width: 500px; /* Ajusta este valor según tus necesidades */
+  padding: 20px;
 }
