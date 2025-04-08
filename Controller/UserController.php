@@ -1,4 +1,13 @@
 <?php
+
+//
+//login user to application -->
+//recuperar lo que el usuario envio POST -->
+// conectar MySQL -->
+// select users -->
+// evaluar el resultado -->
+// redirigir a donde toca userprofile -->
+// }
 session_start();
 
 // check if form is submitted
