@@ -17,6 +17,9 @@
         <label for="password">Contraseña:</label><br>
         <input type="password" name="password" required><br><br>
 
+        <label for ="tel"> telefono: </label><br>
+        <input type="tel" name="telefono" required><br><br>
+
         <input type="submit" value="Registrarse">
     </form>
 
@@ -30,9 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = ($_POST['usuario']);
     $email = ($_POST['email']);
     $password = ($_POST['password']);
+    $tel = ($_POST['tel']);
 
 
-    if (empty($usuario) || empty($email) || empty($password)) {
+    if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
         echo " error! completa todos los campos.";
 
     } else {
@@ -40,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'usuario' => $usuario,
             'email' => $email,
             'password' => $password,
+            'tel' => $tel,
         ];
 
         echo "su registro se a almacenado correctamente.";
