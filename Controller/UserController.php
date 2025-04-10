@@ -68,11 +68,34 @@ class UserController
     public function login(): void
     {
         // Login logic
-                $email = $_POST(['email']);
-                $pass = $_POST(['password']);
+                $email = $_POST['email'];
+                $pass = $_POST['password'];
 
+        // 3.SQL Statement (SELECTS)
+        $stmt = $this->conn->phppanel(query: "SELECT name, email FROM users WHERE name=? AND");
+        $stmt->bind_param(types: "ss", var: $username, vars: $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-// TERMINAR ESTA PARTE A PARTIR DE AQUI
+            // 4.evaluar el resultado  
+            if ($row = $result->fetch_assoc()) {
+                // Autenticación exitosa  
+                $_SESSION['logged'] = true;  
+                $_SESSION['user'] = $row['name'];  
+                $_SESSION['email'] = $row['email'];  
+
+                $this->conn->close();
+
+            } else {
+            $_SESSION["logged"] = false;
+            $_SESSION["error"] = "Invalid username or password.";
+
+            $this->conn->close();
+
+            // redirect to login
+            header(header: "Location: .../view/login.php");
+            
+        // TERMINAR ESTA PARTE A PARTIR DE AQUI
 
                 // Evitar inyección SQL
                 $email = mysqli_real_escape_string($conn, $email);
