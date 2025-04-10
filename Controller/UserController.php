@@ -42,7 +42,8 @@ class UserController
      */
 
     private $conn;
-    public function __construct() {
+    public function __construct()
+    {
 
 
         // 2. Connectar MySQL
@@ -53,7 +54,7 @@ class UserController
         $database = "CFC";
 
         // Crear connection
-        $this ->conn = new mysqli($servername, $username, $password, $database);
+        $this->conn = new mysqli($servername, $username, $password, $database);
 
         // Verificar conexión
         if ($this->conn->connect_error) {
@@ -68,25 +69,24 @@ class UserController
     public function login(): void
     {
         // Login logic
-                $email = $_POST['email'];
-                $pass = $_POST['password'];
+        $email = $_POST['email'];
+        $pass = $_POST['password'];
 
         // 3.SQL Statement (SELECTS)
-        $stmt = $this->conn->phppanel(query: "SELECT name, email FROM users WHERE name=? AND");
-        $stmt->bind_param(types: "ss", var: $username, vars: $password);
+        $stmt = $this->conn->prepare(query: "SELECT name, email FROM users WHERE name=? AND");
+        $stmt->bind_param("ss", $username, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
-            // 4.evaluar el resultado  
-            if ($row = $result->fetch_assoc()) {
-                // Autenticación exitosa  
-                $_SESSION['logged'] = true;  
-                $_SESSION['user'] = $row['name'];  
-                $_SESSION['email'] = $row['email'];  
+        // 4.evaluar el resultado  
+        if ($row = $result->fetch_assoc()) {
+            // Autenticación exitosa  
+            $_SESSION['logged'] = true;
+            $_SESSION['user'] = $row['name'];
+            $_SESSION['email'] = $row['email'];
 
-                $this->conn->close();
-
-            } else {
+            $this->conn->close();
+        } else {
             $_SESSION["logged"] = false;
             $_SESSION["error"] = "Invalid username or password.";
 
@@ -94,37 +94,7 @@ class UserController
 
             // redirect to login
             header(header: "Location: .../view/login.php");
-            
-        // TERMINAR ESTA PARTE A PARTIR DE AQUI
-
-                // Evitar inyección SQL
-                $email = mysqli_real_escape_string($conn, $email);
-                $pass = mysqli_real_escape_string($conn, $pass);
-
-                // Verificar usuario en la BD
-                $sql = "SELECT id, password FROM Usuarios WHERE email = '$email'";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-
-                    // Verificación de contraseña
-                    if (password_verify($pass, $row['pssw'])) {
-                        $_SESSION['User'] = $row['id'];
-                        header("Location: index.php"); // Redirigir a la página principal
-                        exit();
-                    } else {
-                        echo "<p style='color:red;'>Contraseña incorrecta.</p>";
-                    }
-                } else {
-                    echo "<p style='color:red;'>No se encontró el usuario.</p>";
-                }
-            } elseif (isset($_POST['signin'])) {
-                header("Location: register.php"); // Redirige al formulario de registro
-                exit();
-            }
         }
-        $conn->close();
     }
 
     /**
@@ -132,18 +102,19 @@ class UserController
      */
     public function logout(): void
     {
-        
-    session_start();
-    session_unset();     
-    session_destroy();   
-    header("Location: index.php"); 
-    exit;
+
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: index.php");
+        exit;
 
 
         // Logout logic
     }
 
     public function register(): void {}
+} 
 
     // Register logic
 
@@ -189,4 +160,3 @@ class UserController
     //     echo "Llenties: Marcado" . "<br>";
     // }
     //     }
-
