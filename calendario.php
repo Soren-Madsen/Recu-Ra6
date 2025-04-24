@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/View/files/style/navbar.css">
+    <link rel="stylesheet" href="/View/files/style/navbar.css"
     <link rel="stylesheet" href="/View/style/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
         </ul>
     </header>
     <events>
-        <p>Eventos</p>
+        <p>Calendario</p>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>
@@ -28,6 +28,12 @@
         <event class="event-slideshow"></event>
         <event id="main-event">
     </events>
+    <div id="functions">
+        <p>Proximamente</p>
+        <p>Pendiente</p>
+        <p>En curso</p>
+        <p>Cancelado</p>
+    </div>
     <div id="sponsors">
 
     </div>
