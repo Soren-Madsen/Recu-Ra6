@@ -4,24 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="View/files/style/Eventos.css">
+  <link rel="stylesheet" href="./View/files/style/style.css">
+  <link rel="stylesheet" href="./View/files/style/navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Eventos CFC</title>
 </head>
 <body>
 
-  <div class="navbar">
-    <div class="logo">CFC</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Eventos</a>
-      <a href="#">Calendario</a>
-      <a href="#">Noticias</a>
-      <a href="#">Foros</a>
-    </nav>
-    <div>
-      🔍 🔔 ⬜
-    </div>
-  </div>
-
+<header>
+        <ul id="navbar">
+            <h1 id="logo">CFC</h1>
+            <a href="#" class="nav-left" id="home">Home</a>
+            <a href="#" class="nav-left" id="events">Eventos</a>
+            <a href="#" class="nav-left" id="calendar">Calendario</a>
+            <a href="#" class="nav-left" id="news">Noticias</a>
+            <a href="#" class="nav-left" id="forums">Foros</a>
+            <a href="./View/login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
+            <div id="search-container" class="nav-right">
+                <input type="text" placeholder="Search...">
+                <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
+            </div>
+        </ul>
+    </header>
   <div class="container">
     <aside class="sidebar">
       <h3>Preferencias</h3>
