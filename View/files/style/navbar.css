@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/View/files/ttf/UbuntuNerdFont-Regular.ttf');
+}
+
 header {
     background-color: #646464;
     height: 45px;
@@ -19,6 +24,7 @@ header {
 }
 
 #navbar > h1 {
+    font-family: Ubuntu;
     float: left;
     padding: 3px;
     padding-left: 12px;
