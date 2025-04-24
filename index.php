@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/View/files/style/navbar.css"
+    <link rel="stylesheet" href="/View/files/style/navbar.css">
     <link rel="stylesheet" href="/View/style/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
