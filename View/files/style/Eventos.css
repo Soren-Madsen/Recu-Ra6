@@ -65,3 +65,7 @@ body {
     background: linear-gradient(to bottom, transparent, #444);
     cursor: pointer;
   }
+  
+  #preferencias {
+    padding: 10px;
+  }

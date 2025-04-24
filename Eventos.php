@@ -27,7 +27,9 @@
     </header>
   <div class="container">
     <aside class="sidebar">
+      <div id="preferencias">
       <h3>Preferencias</h3>
+      </div>
       <input type="text" placeholder="🔍 Buscar">
       <ul>
         <li>Genero</li>
