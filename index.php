@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/View/files/style/navbar.css"
-    <link rel="stylesheet" href="/View/style/style.css">
+    <link rel="stylesheet" href="./View/files/style/navbar.css">
+    <link rel="stylesheet" href="./View/files/style/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Cine Fest Catalunya // Página principal</title>
 </head>
+<style>
+    #home {
+        background-color: #999999;
+    }
+</style>
 <body>
     <header>
         <ul id="navbar">
-            <img src="/View/files/img/CineFestCatalunya-dark.png">
-            <a href="#" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Eventos</a>
-            <a href="#" class="nav-link">Calendario</a>
-            <a href="#" class="nav-link">Noticias</a>
-            <a href="#" class="nav-link">Foros</a>
+            <h1 id="logo">CFC</h1>
+            <a href="#" class="nav-left" id="home">Home</a>
+            <a href="#" class="nav-left" id="events">Eventos</a>
+            <a href="#" class="nav-left" id="calendar">Calendario</a>
+            <a href="#" class="nav-left" id="news">Noticias</a>
+            <a href="#" class="nav-left" id="forums">Foros</a>
+            <a href="./View/login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
+            <div id="search-container" class="nav-right">
+                <input type="text" placeholder="Search...">
+                <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
+            </div>
         </ul>
     </header>
     <events>
-        <p>Eventos</p>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>

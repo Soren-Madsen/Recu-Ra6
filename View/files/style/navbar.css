@@ -1,3 +1,71 @@
 header {
-    background-color: ;
+    background-color: #646464;
+    height: 45px;
+    box-shadow: rgb(97, 97, 97) 0px 1px 6px;
+    display: block;
+}
+
+
+#navbar > a {
+    text-decoration: none;
+    color: white;
+}
+
+#navbar > .nav-left {
+    float: left;
+    padding: 12px;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+#navbar > h1 {
+    float: left;
+    padding: 3px;
+    padding-left: 12px;
+    padding-right: 16px;
+    color: #ffffff;
+    font-size: 32px;
+}
+
+.nav-right {
+    float: right;
+    padding: 5px;
+}
+
+#user {
+    padding: 9px;
+    margin-right: 22px;
+}
+
+#search-container {
+    float: right;
+    margin-right: 12px;
+}
+
+#search-container > input[type=text] {
+    padding: 6px;
+    width: 200px;
+    font-size: 16px;
+    color: white;
+    margin-right: -4px;
+    border: none;
+    outline: none;
+    background: #8a8a8a;
+}
+
+#search-container > button {
+    padding: 9px 10px 7px 10px;
+    background: #646464;
+    border-radius: 0px;
+    border: 1px solid #747474;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#search-container > button:hover {
+    background: #747474;
+}
+
+.nav-left:hover {
+    background-color: #858585;
 }
