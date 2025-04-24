@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="View/files/style/Eventos.css">
   <link rel="stylesheet" href="./View/files/style/style.css">
   <link rel="stylesheet" href="./View/files/style/navbar.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Eventos CFC</title>
 </head>
 <body>
@@ -57,4 +56,5 @@
   </div>
 
 </body>
+<script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
 </html>

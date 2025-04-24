@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="./View/files/style/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Cine Fest Catalunya // Página principal</title>
 </head>
 <style>
@@ -46,4 +45,5 @@
         <div id="legal-stuff"></div>
     </footer>
 </body>
+<script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
 </html>
