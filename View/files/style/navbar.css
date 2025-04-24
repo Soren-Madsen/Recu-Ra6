@@ -13,6 +13,7 @@ header {
 
 #navbar > a {
     text-decoration: none;
+    font-family: Ubuntu;
     color: white;
 }
 
@@ -52,6 +53,7 @@ header {
     padding: 6px;
     width: 200px;
     font-size: 16px;
+    font-family: Ubuntu;
     color: white;
     margin-right: -4px;
     border: none;
