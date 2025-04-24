@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="View/files/style/Eventos.css">
   <link rel="stylesheet" href="./View/files/style/style.css">
-  <link rel="stylesheet" href="./View/files/style/navbar.css">
+  <link rel="stylesheet" href="/View/files/style/navbar.css">
   <title>Eventos CFC</title>
 </head>
 <body>
