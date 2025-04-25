@@ -10,9 +10,6 @@
 </head>
 
 <body>
-    <?php
-
-    ?>
     <div id="LoginCentred">
         <div id="T_IniciaSession">
             <h1>INICIA SESIÓN</h1>
