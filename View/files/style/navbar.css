@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/View/files/ttf/UbuntuNerdFont-Regular.ttf');
+}
+
 header {
     background-color: #646464;
     height: 45px;
@@ -8,6 +13,7 @@ header {
 
 #navbar > a {
     text-decoration: none;
+    font-family: Ubuntu;
     color: white;
 }
 
@@ -19,6 +25,7 @@ header {
 }
 
 #navbar > h1 {
+    font-family: Ubuntu;
     float: left;
     padding: 3px;
     padding-left: 12px;
@@ -38,6 +45,7 @@ header {
 }
 
 #search-container {
+    margin: 3px;
     float: right;
     margin-right: 12px;
 }
@@ -46,6 +54,7 @@ header {
     padding: 6px;
     width: 200px;
     font-size: 16px;
+    font-family: Ubuntu;
     color: white;
     margin-right: -4px;
     border: none;
@@ -54,7 +63,7 @@ header {
 }
 
 #search-container > button {
-    padding: 9px 10px 7px 10px;
+    padding: 6px 10px 4px 10px;
     background: #646464;
     border-radius: 0px;
     border: 1px solid #747474;

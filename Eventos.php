@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="stylesheet" href="./View/files/style/style.css">
+<link rel="stylesheet" href="/View/files/style/navbar.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="View/files/style/Eventos.css">
-  <link rel="stylesheet" href="./View/files/style/style.css">
-  <link rel="stylesheet" href="/View/files/style/navbar.css">
+  
   <title>Eventos CFC</title>
 </head>
 <body>
@@ -27,7 +28,9 @@
     </header>
   <div class="container">
     <aside class="sidebar">
+      <div id="preferencias">
       <h3>Preferencias</h3>
+      </div>
       <input type="text" placeholder="🔍 Buscar">
       <ul>
         <li>Genero</li>
