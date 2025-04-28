@@ -17,7 +17,7 @@
         <ul id="navbar">
             <h1 id="logo">CFC</h1>
             <a href="#" class="nav-left" id="home">Home</a>
-            <a href="#" class="nav-left" id="events">Eventos</a>
+            <a href="./View/events.php" class="nav-left" id="events">Eventos</a>
             <a href="#" class="nav-left" id="calendar">Calendario</a>
             <a href="#" class="nav-left" id="news">Noticias</a>
             <a href="#" class="nav-left" id="forums">Foros</a>
