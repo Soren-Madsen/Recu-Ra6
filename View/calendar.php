@@ -14,8 +14,8 @@
     <header>
         <ul id="navbar">
             <img src="/View/files/img/CineFestCatalunya-dark.png">
-            <a href="#" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Eventos</a>
+            <a href="../index.php" class="nav-link">Home</a>
+            <a href="./events.php" class="nav-link">Eventos</a>
             <a href="#" class="nav-link">Calendario</a>
             <a href="#" class="nav-link">Noticias</a>
             <a href="#" class="nav-link">Foros</a>
