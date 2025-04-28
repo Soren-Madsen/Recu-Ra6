@@ -11,13 +11,13 @@ header {
 }
 
 
-#navbar > a {
+#navbar a {
     text-decoration: none;
     font-family: Ubuntu;
     color: white;
 }
 
-#navbar > .nav-left {
+#navbar > .nav-left > a {
     float: left;
     padding: 12px;
     transition: 0.2s;
@@ -46,6 +46,8 @@ header {
 
 #search-container {
     margin: 3px;
+    padding: 5px;
+    padding-right: 0px;
     float: right;
     margin-right: 12px;
 }
@@ -75,6 +77,62 @@ header {
     background: #747474;
 }
 
-.nav-left:hover {
+.nav-left > a:hover {
     background-color: #858585;
+}
+
+.menubtn {
+    font-size: 30px;
+    float: right;
+    padding: 6px;
+    color: white;
+    margin-right: 12px;
+    cursor: pointer;
+    display: none;
+}
+
+#check {
+    display: none;
+}
+
+@media only screen and (max-width: 860px) {
+    .menubtn {
+        display: block;
+    }
+
+    header {
+        box-shadow: none;
+    }
+
+    .nav-left {
+        position: fixed;
+        top: 45px;
+        left: 0%;
+        background-color: #646464;
+        width: 200px;
+        height: 100vh;
+        display: flex;
+        transition: all 0.3s;
+        flex-direction: column;
+    }
+
+    #search-container {
+        float: left;
+        position: fixed;
+        top: 270px;
+        margin-left: 6px;
+        transition: all 0.3s;
+    }
+
+    #search-container > input[type=text] {
+        width: 160px;
+    }
+
+    #search-container > button {
+        display: none;
+    }
+
+    #check:checked ~ .nav-left {
+        left: -30%;
+    }
 }
