@@ -18,8 +18,8 @@
             <h2>Introduce el correo electrónico y la contraseña de tu cuenta CFC.</h2>
         </div>
         <div id="rectangle">
-            <form action="index.php" method="POST">
-                <!-- DIRECCION DE CORREO ELECTRONICO -->
+            <form action="../index.php" method="POST">
+                 <!-- DIRECCION DE CORREO ELECTRONICO -->
 
                 <label for="email">
                     <h2>Dirección de correo electrónico:</h2>
