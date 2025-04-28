@@ -29,7 +29,7 @@
                 </div>
 
                 <!-- PASSWORD -->
-                <label for="password">
+                <label for="pssw">
                     <h2>Contraseña:</h2>
                     <div id="TextBox">
 
