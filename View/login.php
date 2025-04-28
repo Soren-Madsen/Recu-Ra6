@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./View/files/style/style.css">
-    <link rel="stylesheet" href="/View/files/style/login.css">
+    <link rel="stylesheet" href="./files/style/style.css">
+    <link rel="stylesheet" href="./files/style/login.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineFest Catalunya // Login</title>
