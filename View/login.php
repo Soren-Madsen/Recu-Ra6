@@ -18,9 +18,9 @@
             <h2>Introduce el correo electrónico y la contraseña de tu cuenta CFC.</h2>
         </div>
         <div id="rectangle">
+            <!-- Formulario para Iniciar Sesión -->
             <form action="../index.php" method="POST">
-                 <!-- DIRECCION DE CORREO ELECTRONICO -->
-
+                <!-- DIRECCION DE CORREO ELECTRONICO -->
                 <label for="email">
                     <h2>Dirección de correo electrónico:</h2>
                 </label>
@@ -31,21 +31,22 @@
                 <!-- PASSWORD -->
                 <label for="pssw">
                     <h2>Contraseña:</h2>
-                    <div id="TextBox">
-
                 </label>
-                <input class="inputbox" type="password" name="password" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" /><br>
+                <div id="TextBox">
+                    <input class="inputbox" type="password" name="password" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" /><br>
+                </div>
+
+                <h3>
+                    <a href="#">¿Has olvidado tu contraseña?</a>
+                </h3>
+
+                <!-- LOGIN -->
+                <input type="submit" id="login" value="Inicia sesión" />
+            </form>
+
+            <!-- Botón "Registrarme" con enlace directo (alternativa sin JavaScript) -->
+            <a href="sign_in.php" id="signin">Registrarme</a>
         </div>
-
-        <h3>
-            <link href="" value="">¿Has olvidado tu contraseña?
-        </h3>
-        <!-- LOGIN -->
-        <input type="submit" id="login" value="Inicia sesión" />
-        <!-- SIGNIN -->
-        <input type="submit" id="signin" value="Registrarme" />
-
-        </form>
     </div>
 </body>
 
