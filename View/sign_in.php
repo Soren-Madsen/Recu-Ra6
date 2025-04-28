@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <form action="login.php" method="post"></form>
+    
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
 </head>
