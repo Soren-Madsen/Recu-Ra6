@@ -21,7 +21,7 @@
             <a href="#" class="nav-left" id="calendar">Calendario</a>
             <a href="#" class="nav-left" id="news">Noticias</a>
             <a href="#" class="nav-left" id="forums">Foros</a>
-            <a href="./View/login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
+            <a href="./login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
             <div id="search-container" class="nav-right">
                 <input type="text" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
