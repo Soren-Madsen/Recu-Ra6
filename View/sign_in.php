@@ -23,39 +23,6 @@
         <input type="submit" value="Registrarse">
     </form>
 
-    <?php
-
-$usuarios = [];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "rellena todos los campos",
-
-    $usuario = ($_POST['usuario']);
-    $email = ($_POST['email']);
-    $password = ($_POST['password']);
-    $tel = ($_POST['tel']);
-
-
-    if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
-        echo " error! completa todos los campos.";
-
-    } else {
-        $usuarios[] = [
-            'usuario' => $usuario,
-            'email' => $email,
-            'password' => $password,
-            'tel' => $tel,
-        ];
-
-        echo "su registro se a almacenado correctamente.";
-    }
-}
-?>
-
-
-
-
-
 </body>
 </html>
 
