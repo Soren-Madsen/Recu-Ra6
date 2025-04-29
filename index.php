@@ -16,13 +16,19 @@
     <header>
         <ul id="navbar">
             <h1 id="logo">CFC</h1>
-            <a href="#" class="nav-left" id="home">Home</a>
-            <a href="./View/events.php" class="nav-left" id="events">Eventos</a>
-            <a href="./View/calendario.php" class="nav-left" id="calendar">Calendario</a>
-            <a href="#" class="nav-left" id="news">Noticias</a>
-            <a href="#" class="nav-left" id="forums">Foros</a>
+            <div class="nav-left">
+                <a href="#" id="home">Home</a>
+                <a href="./View/events.php" id="events">Eventos</a>
+                <a href="./View/calendario.php" id="calendar">Calendario</a>
+                <a href="#" id="news">Noticias</a>
+                <a href="#" id="forums">Foros</a>
+            </div>
+            <input type="checkbox" id="check">
+            <label for="check" class="menubtn">
+                <i class="fas fa-bars"></i>
+            </label>
             <a href="./View/login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
-            <div id="search-container" class="nav-right">
+            <div id="search-container">
                 <input type="text" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
             </div>
