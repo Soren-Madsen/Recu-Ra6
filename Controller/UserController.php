@@ -71,11 +71,12 @@ class UserController
     {
         // Login logic
         $email = $_POST['email'];
-        $pass = $_POST['pssw'];
+        $pass = $_POST['password'];
 
         // 3.SQL Statement (SELECTS)
-        $stmt = $this->conn->prepare(query: "SELECT name, email FROM users WHERE name=? AND");
-        $stmt->bind_param("ss", $username, $password);
+        // SELECT name, email FROM users WHERE email = ? AND password = ?
+        $stmt = $this->conn->prepare(query: "SELECT email, password FROM users WHERE name=? AND password=?");
+        $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -83,8 +84,8 @@ class UserController
         if ($row = $result->fetch_assoc()) {
             // Autenticación exitosa  
             $_SESSION['logged'] = true;
-            $_SESSION['user'] = $row['name'];
             $_SESSION['email'] = $row['email'];
+            $_SESSION['password'] = $row['password'];
 
             $this->conn->close();
         } else {
