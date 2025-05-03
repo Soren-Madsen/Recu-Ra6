@@ -118,7 +118,7 @@ header {
     #nav-left {
         position: fixed;
         top: 45px;
-        left: -24.2%;
+        left: -200px;
         background-color: #646464;
         width: 200px;
         height: 100vh;
@@ -132,7 +132,7 @@ header {
         top: 270px;
         margin-left: 6px;
         transition: all 0.3s;
-        left: -24%;
+        left: -200px;
     }
 
     #search-container > input[type=text] {
