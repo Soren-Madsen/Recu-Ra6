@@ -4,6 +4,9 @@
 }
 
 header {
+    position: fixed;
+    top: 0px;
+    width: 100vw;
     background-color: #646464;
     height: 45px;
     box-shadow: rgb(97, 97, 97) 0px 1px 6px;
@@ -17,7 +20,7 @@ header {
     color: white;
 }
 
-#navbar > .nav-left > a {
+#navbar > #nav-left > a {
     float: left;
     padding: 12px;
     transition: 0.2s;
@@ -96,18 +99,26 @@ header {
 }
 
 @media only screen and (max-width: 860px) {
+    #check:checked ~ #nav-left {
+        left: 0px;
+    }
+    
+    #check:checked ~ #search-container {
+        left: 0px;
+    }
     .menubtn {
         display: block;
+        margin-top: -4px;
     }
 
     header {
         box-shadow: none;
     }
 
-    .nav-left {
+    #nav-left {
         position: fixed;
         top: 45px;
-        left: 0%;
+        left: -24.2%;
         background-color: #646464;
         width: 200px;
         height: 100vh;
@@ -117,11 +128,11 @@ header {
     }
 
     #search-container {
-        float: left;
         position: fixed;
         top: 270px;
         margin-left: 6px;
         transition: all 0.3s;
+        left: -24%;
     }
 
     #search-container > input[type=text] {
@@ -130,9 +141,5 @@ header {
 
     #search-container > button {
         display: none;
-    }
-
-    #check:checked ~ .nav-left {
-        left: -30%;
     }
 }
