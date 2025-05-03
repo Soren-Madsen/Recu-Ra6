@@ -27,7 +27,7 @@
             <label for="check" class="menubtn">
                 <i class="fas fa-bars"></i>
             </label>
-            <a href="./View/login.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
+            <a href="./View/profile.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
             <div id="search-container">
                 <input type="text" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
