@@ -27,17 +27,25 @@
                 <a href="#" id="news">Noticias</a>
                 <a href="#" id="forums">Foros</a>
             </div>
-            <a href="./View/profile.php" class="nav-right" id="user"><i class="fa-solid fa-user" style="font-size: 24px;"> </i></a>
+            <input type="checkbox" id="showprofile">
+            <label for="showprofile" id="profilebtn" class="navbar-right">
+                <i class="fa-solid fa-user" style="font-size: 24px;"></i>
+            </label>
             <div id="search-container">
                 <input type="text" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
             </div>
             <div id="user-info">
-                <img src="usr">
-                <h1>Bienvenido, user!</h1>
-                <button class="user-action"><a href="./View/profile.php">Perfil</a></button>
-                <button class="user-action"><a href="#">Lorem ipsum</a></button>
-                <button class="user-action"><a href="#">Lorem ipsum</a></button>
+                <h1 id="profile">Perfil</h1>
+                <h3 id="usr-email">example@example.com</h3>
+                <img src="./View/files/img/usr_test.png" id="user-pfp">
+                <h1 id="usr-name">Bienvenido, user!</h1>
+                <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                <!--placeholders-->
+                <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+                <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                <!--placeholders-->
+                <button class="user-action" id="logout"><a href="#">Cerrar sesión</a></button>
             </div>
         </ul>
     </header>
@@ -59,4 +67,5 @@
     </footer>
 </body>
 <script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
+<script src="./View/files/js/navbar.js"></script>
 </html>
