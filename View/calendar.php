@@ -12,14 +12,40 @@
 
 <body>
     <header>
-        <ul id="navbar">
-            <img src="/View/files/img/CineFestCatalunya-dark.png">
-            <a href="../index.php" class="nav-link">Home</a>
-            <a href="./events.php" class="nav-link">Eventos</a>
-            <a href="#" class="nav-link">Calendario</a>
-            <a href="#" class="nav-link">Noticias</a>
-            <a href="#" class="nav-link">Foros</a>
-        </ul>
+    <ul id="navbar">
+        <h1 id="logo">CFC</h1>
+        <input type="checkbox" id="check">
+        <label for="check" class="menubtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <div id="nav-left">
+            <a href="../index.php" id="home">Home</a>
+            <a href="./events.php" id="events">Eventos</a>
+            <a href="#" id="calendar">Calendario</a>
+            <a href="#" id="news">Noticias</a>
+            <a href="#" id="forums">Foros</a>
+        </div>
+        <input type="checkbox" id="showprofile">
+        <label for="showprofile" id="profilebtn" class="navbar-right">
+            <i class="fa-solid fa-user" style="font-size: 24px;"></i>
+        </label>
+        <div id="search-container">
+            <input type="text" placeholder="Search...">
+            <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
+        </div>
+        <div id="user-info">
+            <h1 id="profile">Perfil</h1>
+            <h3 id="usr-email">example@example.com</h3>
+            <img src="./files/img/usr_test.png" id="user-pfp">
+            <h1 id="usr-name">Bienvenido, user!</h1>
+            <button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
+            <!--placeholders-->
+            <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+            <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+            <!--placeholders-->
+            <button class="user-action" id="logout"><a href="#">Cerrar sesión</a></button>
+        </div>
+    </ul>
     </header>
     <events>
         <p>Calendario</p>
