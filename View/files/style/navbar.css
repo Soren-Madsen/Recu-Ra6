@@ -3,6 +3,11 @@
     src: url('/View/files/ttf/UbuntuNerdFont-Regular.ttf');
 }
 
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 header {
     position: fixed;
     top: 0px;
@@ -12,7 +17,6 @@ header {
     box-shadow: rgb(97, 97, 97) 0px 1px 6px;
     display: block;
 }
-
 
 #navbar a {
     text-decoration: none;
@@ -86,7 +90,7 @@ header {
     background: #747474;
 }
 
-.nav-left > a:hover {
+#nav-left > a:hover {
     background-color: #858585;
 }
 
