@@ -59,7 +59,7 @@ class UserController
 
         $dbCheck = $this->conn->query("SELECT DATABASE()");
         $dbRow = $dbCheck->fetch_row();
-        echo("Connected to DB: " . $dbRow[0]);
+        echo ("Connected to DB: " . $dbRow[0]);
 
         if ($this->conn->connect_error) {
             die("Conexión failed: " . $this->conn->connect_error);
@@ -68,43 +68,56 @@ class UserController
 
     public function login(): void
     {
-        echo __LINE__;
-        // get data from form request
-        $email = $_POST['email'];
-        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        echo $pass;
-        echo __LINE__;
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            header("Location: ../View/login.php");
+            exit;
+        }
 
-        // 3.SQL Statement (SELECTS)
-        $stmt = $this->conn->prepare("SELECT email, password FROM users WHERE email=? AND password=?");
-        $stmt->bind_param("ss", $email, $pass);
-        $stmt->execute();
+        // Validar campos
+        if (empty($_POST['email']) || empty($_POST['password'])) {
+            $_SESSION["error"] = "Por favor complete todos los campos";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
+        $email = $_POST['email'];
+        $inputPassword = $_POST['password'];
+
+        // Obtener usuario de la base de datos
+        $stmt = $this->conn->prepare("SELECT id, email, password FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+
+        if (!$stmt->execute()) {
+            $_SESSION["error"] = "Error en la consulta";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
         $result = $stmt->get_result();
 
-        echo __LINE__;
-        // 4.evaluar el resultado  
-        if ($row = $result->fetch_assoc()) {
-            // Autenticación exitosa  
-            echo __LINE__;
-            $_SESSION['logged'] = true;
-            $_SESSION['email'] = $row['email'];
-            $_SESSION['password'] = $row['password'];
-
-            $this->conn->close();
-            // redirect to index
-            echo __LINE__;
-            header("Location: ../index.php");
+        if ($result->num_rows === 0) {
+            $_SESSION["error"] = "Usuario no encontrado";
+            header("Location: ../View/login.php");
             exit;
-        } else {
-            echo "Reached failure.";
-            $_SESSION["logged"] = false;
-            $error =  "Invalid username or password.";
-
-            $this->conn->close();
-
-            // redirect to login
-            header(header: "Location: ../View/login.php");
         }
+
+        $user = $result->fetch_assoc();
+
+        // Verificar contraseña
+        if (!password_verify($inputPassword, $user['password'])) {
+            $_SESSION["error"] = "Contraseña incorrecta";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
+        // Login exitoso
+        $_SESSION['logged'] = true;
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['email'] = $user['email'];
+
+        $this->conn->close();
+        header("Location: ../index.php");
+        exit;
     }
 
     /**
@@ -123,7 +136,8 @@ class UserController
         // Logout logic
     }
 
-    public function register(): void {
+    public function register(): void
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = ($_POST['usuario']);
             $email = ($_POST['email']);
@@ -131,24 +145,24 @@ class UserController
             $date = date("Y-m-d");
 
             if (empty($username) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo("Invalid input.");
+                echo ("Invalid input.");
                 exit("Invalid input.");
             } else {
                 $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("ssss", $username, $email, $password, $date);
 
                 if (!$stmt->execute()) {
-                    echo("DB insert failed: " . $stmt->error);
+                    echo ("DB insert failed: " . $stmt->error);
                     exit("Failed to insert data.");
                 }
 
-                echo("Insert ID: " . $this->conn->insert_id);
+                echo ("Insert ID: " . $this->conn->insert_id);
                 $result = $this->conn->query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
                 $row = $result->fetch_assoc();
-                echo("Last inserted user: " . json_encode($row));
+                echo ("Last inserted user: " . json_encode($row));
 
                 $stmt->close();
-                echo("Inserted values successfully.");
+                echo ("Inserted values successfully.");
                 exit;
             }
         }
