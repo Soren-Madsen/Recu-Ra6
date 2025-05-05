@@ -42,16 +42,8 @@
                     <input class="inputbox" type="password" name="password" required>
                 </div>
 
-                <!-- TELÉFONO -->
-                <label for="telefono">
-                    <h2>Teléfono:</h2>
-                </label>
-                <div class="TextBox">
-                    <input class="inputbox" type="tel" name="telefono" required>
-                </div>
-
                 <!-- BOTÓN REGISTRO -->
-                <input type="submit" id="register" value="Registrarse">
+                <input type="submit" id="register" name="register" value="Registrarse">
 
                 <!-- ENLACE A LOGIN -->
                 <h3>

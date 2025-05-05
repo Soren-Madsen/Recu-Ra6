@@ -12,24 +12,24 @@
 session_start();
 
 // check if form is submitted
-echo __LINE__;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo __LINE__;
-    $user = new UserController();
-
+    echo "<p>Got past POST check</p>";
     // check button
     if (isset($_POST["login"])) {
-        echo __LINE__;
+        $user = new UserController();
+        echo "<p>Got past MySQL connection</p>";
         echo "<p>Login button is clicked.</p>";
         $user->login();
     }
 
     if (isset($_POST["logout"])) {
+        $user = new UserController();
         echo "<p>Logout button is clicked.</p>";
         $user->logout();
     }
 
     if (isset($_POST["register"])) {
+        $user = new UserController();
         echo "<p>Register button is clicked.</p>";
         $user->register();
     }
@@ -57,6 +57,10 @@ class UserController
 
         $this->conn = new mysqli($servername, $username, $password, $database);
 
+        $dbCheck = $this->conn->query("SELECT DATABASE()");
+        $dbRow = $dbCheck->fetch_row();
+        echo("Connected to DB: " . $dbRow[0]);
+
         if ($this->conn->connect_error) {
             die("Conexión failed: " . $this->conn->connect_error);
         }
@@ -64,11 +68,11 @@ class UserController
 
     public function login(): void
     {
-        
         echo __LINE__;
         // get data from form request
         $email = $_POST['email'];
-        $pass = $_POST['password'];
+        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        echo $pass;
         echo __LINE__;
 
         // 3.SQL Statement (SELECTS)
@@ -92,13 +96,14 @@ class UserController
             header("Location: ../index.php");
             exit;
         } else {
+            echo "Reached failure.";
             $_SESSION["logged"] = false;
-            $_SESSION["error"] =  "Invalid username or password.";
+            $error =  "Invalid username or password.";
 
             $this->conn->close();
 
             // redirect to login
-            header(header: "Location: ../view/login.php");
+            header(header: "Location: ../View/login.php");
         }
     }
 
@@ -111,37 +116,40 @@ class UserController
         session_start();
         session_unset();
         session_destroy();
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
 
 
         // Logout logic
     }
 
-    public function register(): void
-    {
-        $usuarios = [];
-
+    public function register(): void {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo "rellena todos los campos",
-
-            $usuario = ($_POST['usuario']);
+            $username = ($_POST['usuario']);
             $email = ($_POST['email']);
-            $password = ($_POST['password']);
-            $tel = ($_POST['tel']);
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $date = date("Y-m-d");
 
-
-            if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
-                echo " error! completa todos los campos.";
+            if (empty($username) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo("Invalid input.");
+                exit("Invalid input.");
             } else {
-                $usuarios[] = [
-                    'usuario' => $usuario,
-                    'email' => $email,
-                    'password' => $password,
-                    'tel' => $tel,
-                ];
+                $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $username, $email, $password, $date);
 
-                echo "su registro se a almacenado correctamente.";
+                if (!$stmt->execute()) {
+                    echo("DB insert failed: " . $stmt->error);
+                    exit("Failed to insert data.");
+                }
+
+                echo("Insert ID: " . $this->conn->insert_id);
+                $result = $this->conn->query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+                $row = $result->fetch_assoc();
+                echo("Last inserted user: " . json_encode($row));
+
+                $stmt->close();
+                echo("Inserted values successfully.");
+                exit;
             }
         }
     }
