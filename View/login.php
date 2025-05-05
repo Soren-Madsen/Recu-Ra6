@@ -18,9 +18,8 @@
             <h2>Introduce el correo electrónico y la contraseña de tu cuenta CFC.</h2>
         </div>
         <div id="rectangle">
-            <!-- Formulario para Iniciar Sesión -->
-            <form action="../index.php" method="POST">
-                <!-- DIRECCION DE CORREO ELECTRONICO -->
+            <form action="../Controller/UserController.php" method="POST">
+                <!-- CORREO ELECTRONICO -->
                 <label for="email">
                     <h2>Dirección de correo electrónico:</h2>
                 </label>
@@ -41,10 +40,9 @@
                 </h3>
 
                 <!-- LOGIN -->
-                <input type="submit" id="login" value="Inicia sesión" />
+                <input type="submit" name="login" id="login" value="Inicia sesión" />
             </form>
-
-            <!-- Botón "Registrarme" con enlace directo (alternativa sin JavaScript) -->
+            <!-- BOTON REGISTRO -->
             <a href="sign_in.php" id="signin">Registrarme</a>
         </div>
     </div>
