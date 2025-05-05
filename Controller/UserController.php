@@ -16,7 +16,7 @@ echo __LINE__;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo __LINE__;
     $user = new UserController();
-    
+
     // check button
     if (isset($_POST["login"])) {
         echo __LINE__;
@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 class UserController
 {
+
     /** STEP BY STEP LOGIN 
      * LOGIN USER TO APPLICATION 
      * RECUPERAR LO QUE EL USUARIO ENVIO $POST
@@ -48,42 +49,34 @@ class UserController
     private $conn;
     public function __construct()
     {
-
-
-        // 2. Connectar MySQL
         // Conexión a la base de datos
         $servername = "localhost";
-        $username = "root"; // Cambiar según la configuración de la BD
-        $password = ""; // Cambiar si hay contraseña
+        $username = "root";
+        $password = "";
         $database = "CFC";
 
-        // Crear connection
         $this->conn = new mysqli($servername, $username, $password, $database);
 
-        // Verificar conexión
         if ($this->conn->connect_error) {
             die("Conexión failed: " . $this->conn->connect_error);
         }
-        echo "Completed succesfully.";
     }
 
-    /**
-     * login user to application
-     */
     public function login(): void
     {
+        
         echo __LINE__;
         // get data from form request
         $email = $_POST['email'];
         $pass = $_POST['password'];
         echo __LINE__;
-        
+
         // 3.SQL Statement (SELECTS)
         $stmt = $this->conn->prepare("SELECT email, password FROM users WHERE email=? AND password=?");
         $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         echo __LINE__;
         // 4.evaluar el resultado  
         if ($row = $result->fetch_assoc()) {
@@ -92,7 +85,7 @@ class UserController
             $_SESSION['logged'] = true;
             $_SESSION['email'] = $row['email'];
             $_SESSION['password'] = $row['password'];
-            
+
             $this->conn->close();
             // redirect to index
             echo __LINE__;
@@ -125,18 +118,19 @@ class UserController
         // Logout logic
     }
 
-    public function register(): void {
+    public function register(): void
+    {
         $usuarios = [];
-        
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "rellena todos los campos",
-        
+
             $usuario = ($_POST['usuario']);
             $email = ($_POST['email']);
             $password = ($_POST['password']);
             $tel = ($_POST['tel']);
-        
-        
+
+
             if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
                 echo " error! completa todos los campos.";
             } else {
@@ -146,11 +140,9 @@ class UserController
                     'password' => $password,
                     'tel' => $tel,
                 ];
-        
+
                 echo "su registro se a almacenado correctamente.";
             }
-
+        }
     }
-}
-
 }
