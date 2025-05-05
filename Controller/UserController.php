@@ -162,7 +162,11 @@ class UserController
                 echo ("Last inserted user: " . json_encode($row));
 
                 $stmt->close();
+
                 echo ("Inserted values successfully.");
+                echo ("Inserted values successfully.");
+                header("Location: ../View/login.php");
+
                 exit;
             }
         }
