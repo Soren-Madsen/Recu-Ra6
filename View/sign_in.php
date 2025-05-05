@@ -17,7 +17,7 @@
             <h2>Completa todos los campos para registrarte en CFC.</h2>
         </div>
         <div id="rectangle">
-            <form action="login.php" method="POST">
+            <form action="../Controller/UserController.php" method="POST">
                 <!-- NOMBRE DE USUARIO -->
                 <label for="usuario">
                     <h2>Nombre de usuario:</h2>
