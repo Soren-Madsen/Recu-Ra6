@@ -18,9 +18,9 @@
                 <i class="fas fa-bars"></i>
             </label>
             <div id="nav-left">
-                <a href="../index.php" id="home">Home</a>
-                <a href="./events.php" id="events">Eventos</a>
-                <a href="./calendar.php" id="calendar">Calendario</a>
+                <a href="#" id="home">Home</a>
+                <a href="./View/events.php" id="events">Eventos</a>
+                <a href="./View/calendar.php" id="calendar">Calendario</a>
                 <a href="#" id="news">Noticias</a>
                 <a href="#" id="forums">Foros</a>
             </div>
@@ -34,20 +34,27 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
-                <h3 id="usr-email">example@example.com</h3>
-                <img src="./files/img/usr_test.png" id="user-pfp">
-                <h1 id="usr-name">Bienvenido, user!</h1>
-                <button class="user-action" id="prof-redirect"><a href="#">Perfil</a></button>
-                <!--placeholders-->
-                <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
-                <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
-                <!--placeholders-->
-                <button class="user-action" id="logout"><a href="#">Cerrar sesión</a></button>
+                <?php if(isset($_SESSION["email"])) {
+                    echo '
+                    <h3 id="usr-email">'.$_SESSION['email'].'</h3>
+                    <img src="./View/files/img/usr_test.png" id="user-pfp">
+                    <h1 id="usr-name">Bienvenido, '.$_SESSION['username'].'!</h1>
+                    <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="logout"><a href="./Controller/logout.php">Cerrar sesión</a></button>';
+                } else {
+                    echo '<h1 id="not-logged">No has iniciado sesión</h1>
+                    <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
+                }?>
             </div>
         </ul>
     </header>
     <div id="container">
-        <div id="profile-container">
+    <?php if(isset($_SESSION["email"])) {
+        echo '<div id="profile-container">
             <div id="sidebar">
                 <h2>Configuración</h2>
                 <ul>
@@ -88,7 +95,10 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div>';
+    } else {
+        echo 'No has iniciado sesión.';
+    } ?>
     </div>
 </body>
 <script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
