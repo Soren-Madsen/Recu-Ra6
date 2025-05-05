@@ -44,7 +44,7 @@
           <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
       </div>
       <div id="user-info">
-          <h1 id="profile">Perfil</h1>
+          <h1 id="profile"></h1>
           <h3 id="usr-email">example@example.com</h3>
           <img src="./files/img/usr_test.png" id="user-pfp">
           <h1 id="usr-name">Bienvenido, user!</h1>

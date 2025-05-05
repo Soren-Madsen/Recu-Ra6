@@ -1,3 +1,6 @@
+<?php
+    include "./Controller/UserController.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,15 +43,21 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
-                <h3 id="usr-email">example@example.com</h3>
-                <img src="./View/files/img/usr_test.png" id="user-pfp">
-                <h1 id="usr-name">Bienvenido, user!</h1>
-                <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
-                <!--placeholders-->
-                <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
-                <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
-                <!--placeholders-->
-                <button class="user-action" id="logout"><a href="#">Cerrar sesión</a></button>
+                <?php if($_SESSION["email"] == true) {
+                    echo '
+                    <h3 id="usr-email">'.$_SESSION['email'].'</h3>
+                    <img src="./View/files/img/usr_test.png" id="user-pfp">
+                    <h1 id="usr-name">Bienvenido, '.$_SESSION['username'].'!</h1>
+                    <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="logout"><a href="./Controller/logout.php">Cerrar sesión</a></button>';
+                } else {
+                    echo '<h1 id="not-logged">No has iniciado sesión</h1>
+                    <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
+                }?>
             </div>
         </ul>
     </header>

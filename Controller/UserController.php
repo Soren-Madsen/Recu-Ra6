@@ -84,7 +84,7 @@ class UserController
         $inputPassword = $_POST['password'];
 
         // Obtener usuario de la base de datos
-        $stmt = $this->conn->prepare("SELECT id, email, password FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
 
         if (!$stmt->execute()) {
@@ -112,7 +112,8 @@ class UserController
 
         // Login exitoso
         $_SESSION['logged'] = true;
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['username'] = $user['name'];
         $_SESSION['email'] = $user['email'];
 
         $this->conn->close();
@@ -123,18 +124,6 @@ class UserController
     /**
      * logout user from application
      */
-    public function logout(): void
-    {
-
-        session_start();
-        session_unset();
-        session_destroy();
-        header("Location: ../index.php");
-        exit;
-
-
-        // Logout logic
-    }
 
     public function register(): void
     {
