@@ -9,7 +9,10 @@
 </head>
 <style>
     #home {
-        background-color: #999999;
+        background-color: #858585;
+    }
+    #home:hover {
+        cursor: default;
     }
 </style>
 <body>
