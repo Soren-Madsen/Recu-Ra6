@@ -12,7 +12,14 @@
 
   <title>Eventos CFC</title>
 </head>
-
+<style>
+    #events {
+        background-color: #858585;
+    }
+    #events:hover {
+        cursor: default;
+    }
+</style>
 <body>
   <header>
   <ul id="navbar">
@@ -23,7 +30,7 @@
       </label>
       <div id="nav-left">
           <a href="../index.php" id="home">Home</a>
-          <a href="#" id="events">Eventos</a>
+          <a id="events">Eventos</a>
           <a href="./calendar.php" id="calendar">Calendario</a>
           <a href="#" id="news">Noticias</a>
           <a href="#" id="forums">Foros</a>

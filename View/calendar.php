@@ -9,7 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cine Fest Catalunya // Página principal</title>
 </head>
-
+<style>
+    #calendar {
+        background-color: #858585;
+    }
+    #calendar:hover {
+        cursor: default;
+    }
+</style>
 <body>
     <header>
     <ul id="navbar">
