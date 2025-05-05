@@ -7,6 +7,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineFest Catalunya // Login</title>
+    <style>
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,6 +29,13 @@
         <div id="T_EmailContraseña">
             <h2>Introduce el correo electrónico y la contraseña de tu cuenta CFC.</h2>
         </div>
+        <?php
+        session_start();
+        if (isset($_SESSION['error'])) {
+            echo '<div class="alert">' . $_SESSION['error'] . '</div>';
+            unset($_SESSION['error']); // Eliminar el mensaje después de mostrarlo
+        }
+        ?>
         <div id="rectangle">
             <form action="../Controller/UserController.php" method="POST">
                 <!-- CORREO ELECTRONICO -->
