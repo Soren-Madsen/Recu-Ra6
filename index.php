@@ -43,7 +43,7 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
-                <?php if($_SESSION["email"] == true) {
+                <?php if(isset($_SESSION["email"])) {
                     echo '
                     <h3 id="usr-email">'.$_SESSION['email'].'</h3>
                     <img src="./View/files/img/usr_test.png" id="user-pfp">
