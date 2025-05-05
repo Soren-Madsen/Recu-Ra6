@@ -149,7 +149,6 @@ class UserController
 
                 $stmt->close();
                 echo("Inserted values successfully.");
-                
                 header("Location: ../View/login.php");
                 exit;
             }
