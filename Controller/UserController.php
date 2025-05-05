@@ -12,11 +12,14 @@
 session_start();
 
 // check if form is submitted
+echo __LINE__;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo __LINE__;
     $user = new UserController();
-
+    
     // check button
     if (isset($_POST["login"])) {
+        echo __LINE__;
         echo "<p>Login button is clicked.</p>";
         $user->login();
     }
@@ -69,33 +72,40 @@ class UserController
      */
     public function login(): void
     {
-        // Login logic
+        echo __LINE__;
+        // get data from form request
         $email = $_POST['email'];
         $pass = $_POST['password'];
-
+        echo __LINE__;
+        
         // 3.SQL Statement (SELECTS)
-        // SELECT name, email FROM users WHERE email = ? AND password = ?
-        $stmt = $this->conn->prepare(query: "SELECT email, password FROM users WHERE name=? AND password=?");
+        $stmt = $this->conn->prepare("SELECT email, password FROM users WHERE email=? AND password=?");
         $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        
+        echo __LINE__;
         // 4.evaluar el resultado  
         if ($row = $result->fetch_assoc()) {
             // Autenticación exitosa  
+            echo __LINE__;
             $_SESSION['logged'] = true;
             $_SESSION['email'] = $row['email'];
             $_SESSION['password'] = $row['password'];
-
+            
             $this->conn->close();
+            // redirect to index
+            echo __LINE__;
+            header("Location: ../index.php");
+            exit;
         } else {
             $_SESSION["logged"] = false;
-            $_SESSION["error"] = "Invalid username or password.";
+            $_SESSION["error"] =  "Invalid username or password.";
 
             $this->conn->close();
 
             // redirect to login
-            header(header: "Location: .../view/login.php");
+            header(header: "Location: ../view/login.php");
         }
     }
 
@@ -115,31 +125,32 @@ class UserController
         // Logout logic
     }
 
-    public function register(): void {}
+    public function register(): void {
+        $usuarios = [];
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            echo "rellena todos los campos",
+        
+            $usuario = ($_POST['usuario']);
+            $email = ($_POST['email']);
+            $password = ($_POST['password']);
+            $tel = ($_POST['tel']);
+        
+        
+            if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
+                echo " error! completa todos los campos.";
+            } else {
+                $usuarios[] = [
+                    'usuario' => $usuario,
+                    'email' => $email,
+                    'password' => $password,
+                    'tel' => $tel,
+                ];
+        
+                echo "su registro se a almacenado correctamente.";
+            }
+
+    }
 }
 
-$usuarios = [];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "rellena todos los campos",
-
-    $usuario = ($_POST['usuario']);
-    $email = ($_POST['email']);
-    $password = ($_POST['password']);
-    $tel = ($_POST['tel']);
-
-
-    if (empty($usuario) || empty($email) || empty($password) || empty($tel)) {
-        echo " error! completa todos los campos.";
-
-    } else {
-        $usuarios[] = [
-            'usuario' => $usuario,
-            'email' => $email,
-            'password' => $password,
-            'tel' => $tel,
-        ];
-
-        echo "su registro se a almacenado correctamente.";
-    }
-} 
+}
