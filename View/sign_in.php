@@ -17,6 +17,13 @@
             <h2>Completa todos los campos para registrarte en CFC.</h2>
         </div>
         <div id="rectangle">
+        <?php
+        session_start();
+        if (isset($_SESSION['error'])) {
+            echo '<div id="alert">' . $_SESSION['error'] . '</div>';
+            unset($_SESSION['error']); // Eliminar el mensaje después de mostrarlo
+        }
+        ?>
             <form action="../Controller/UserController.php" method="POST">
                 <!-- NOMBRE DE USUARIO -->
                 <label for="usuario">

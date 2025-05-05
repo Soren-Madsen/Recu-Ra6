@@ -140,10 +140,24 @@ class UserController
                 $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("ssss", $username, $email, $password, $date);
 
+                $checkstmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
+                $checkstmt->bind_param("s", $email);
+                $checkstmt->execute();
+                $checkstmt->store_result();
+                if ($checkstmt->num_rows > 0) {
+                    $_SESSION["error"] = "La dirección de correo introducida ya existe.";
+                    header("Location: ../View/sign_in.php");
+                    exit;
+                }
+                $checkstmt->close();
+
                 if (!$stmt->execute()) {
                     echo ("DB insert failed: " . $stmt->error);
-                    exit("Failed to insert data.");
+                    $_SESSION["error"] = "Error al crear la cuenta, contacta un administrador.";
+                    header("Location: ../View/sign_in.php");
+                    exit;
                 }
+
 
                 echo ("Insert ID: " . $this->conn->insert_id);
                 $result = $this->conn->query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
