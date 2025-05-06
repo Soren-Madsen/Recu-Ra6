@@ -121,10 +121,15 @@ class UserController
         exit;
     }
 
-    /**
-     * logout user from application
-     */
-
+    
+    public function logout(): void
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: ../View/login.php");
+        exit;
+    }
     public function register(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
