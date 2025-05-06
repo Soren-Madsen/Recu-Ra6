@@ -1,79 +1,44 @@
 <?php
-
-
-//
-//login user to application -->
-//recuperar lo que el usuario envio POST -->
-// conectar MySQL -->
-// select users -->
-// evaluar el resultado -->
-// redirigir a donde toca userprofile -->
-// }
 session_start();
 
-// check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "<p>Got past POST check</p>";
-    // check button
+    $user = new UserController();
+
     if (isset($_POST["login"])) {
-        $user = new UserController();
-        echo "<p>Got past MySQL connection</p>";
-        echo "<p>Login button is clicked.</p>";
         $user->login();
     }
 
     if (isset($_POST["logout"])) {
-        $user = new UserController();
-        echo "<p>Logout button is clicked.</p>";
         $user->logout();
     }
 
     if (isset($_POST["register"])) {
-        $user = new UserController();
-        echo "<p>Register button is clicked.</p>";
         $user->register();
     }
 }
 
 class UserController
 {
-
-    /** STEP BY STEP LOGIN 
-     * LOGIN USER TO APPLICATION 
-     * RECUPERAR LO QUE EL USUARIO ENVIO $POST
-     * CONECTAR MYSQL
-     * EVALUAR EL RESULTADO
-     * REDIRIGIR A USERPROFILE
-     */
-
     private $conn;
+
     public function __construct()
     {
-        // Conexión a la base de datos
         $servername = "localhost";
         $username = "root";
         $password = "";
         $database = "CFC";
 
-        $this->conn = new mysqli($servername, $username, $password, $database);
-
-        $dbCheck = $this->conn->query("SELECT DATABASE()");
-        $dbRow = $dbCheck->fetch_row();
-        echo ("Connected to DB: " . $dbRow[0]);
-
-        if ($this->conn->connect_error) {
-            die("Conexión failed: " . $this->conn->connect_error);
+        try {
+            $this->conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Connected to DB: " . $database . "<br>";
+        } catch (PDOException $e) {
+            die("Conexión fallida: " . $e->getMessage());
         }
     }
 
     public function login(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] != "POST") {
-            header("Location: ../View/login.php");
-            exit;
-        }
-
-        // Validar campos
         if (empty($_POST['email']) || empty($_POST['password'])) {
             $_SESSION["error"] = "Por favor complete todos los campos";
             header("Location: ../View/login.php");
@@ -83,100 +48,72 @@ class UserController
         $email = $_POST['email'];
         $inputPassword = $_POST['password'];
 
-        // Obtener usuario de la base de datos
         $stmt = $this->conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
 
-        if (!$stmt->execute()) {
-            $_SESSION["error"] = "Error en la consulta";
-            header("Location: ../View/login.php");
-            exit;
-        }
-
-        $result = $stmt->get_result();
-
-        if ($result->num_rows === 0) {
+        if (!$user) {
             $_SESSION["error"] = "Usuario no encontrado";
             header("Location: ../View/login.php");
             exit;
         }
 
-        $user = $result->fetch_assoc();
-
-        // Verificar contraseña
         if (!password_verify($inputPassword, $user['password'])) {
             $_SESSION["error"] = "Contraseña incorrecta";
             header("Location: ../View/login.php");
             exit;
         }
 
-        // Login exitoso
         $_SESSION['logged'] = true;
         $_SESSION['id'] = $user['id'];
         $_SESSION['username'] = $user['name'];
         $_SESSION['email'] = $user['email'];
 
-        $this->conn->close();
-        header("Location: ../index.php");
+        header("Location: ../View/userprofile.php");
         exit;
     }
 
-    
     public function logout(): void
     {
-        session_start();
         session_unset();
         session_destroy();
         header("Location: ../View/login.php");
         exit;
     }
+
     public function register(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = ($_POST['usuario']);
-            $email = ($_POST['email']);
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $date = date("Y-m-d");
+        $username = trim($_POST['usuario']);
+        $email = trim($_POST['email']);
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $date = date("Y-m-d");
 
-            if (empty($username) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo ("Invalid input.");
-                exit("Invalid input.");
-            } else {
-                $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $username, $email, $password, $date);
-
-                $checkstmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
-                $checkstmt->bind_param("s", $email);
-                $checkstmt->execute();
-                $checkstmt->store_result();
-                if ($checkstmt->num_rows > 0) {
-                    $_SESSION["error"] = "La dirección de correo introducida ya existe.";
-                    header("Location: ../View/sign_in.php");
-                    exit;
-                }
-                $checkstmt->close();
-
-                if (!$stmt->execute()) {
-                    echo ("DB insert failed: " . $stmt->error);
-                    $_SESSION["error"] = "Error al crear la cuenta, contacta un administrador.";
-                    header("Location: ../View/sign_in.php");
-                    exit;
-                }
-
-
-                echo ("Insert ID: " . $this->conn->insert_id);
-                $result = $this->conn->query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
-                $row = $result->fetch_assoc();
-                echo ("Last inserted user: " . json_encode($row));
-
-                $stmt->close();
-
-                echo ("Inserted values successfully.");
-                echo ("Inserted values successfully.");
-                header("Location: ../View/login.php");
-
-                exit;
-            }
+        if (empty($username) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["error"] = "Datos inválidos.";
+            header("Location: ../View/sign_in.php");
+            exit;
         }
+
+        // Verificar si el correo ya existe
+        $checkStmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
+        $checkStmt->execute([$email]);
+
+        if ($checkStmt->rowCount() > 0) {
+            $_SESSION["error"] = "La dirección de correo ya está registrada.";
+            header("Location: ../View/sign_in.php");
+            exit;
+        }
+
+        // Insertar nuevo usuario
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
+        if (!$stmt->execute([$username, $email, $password, $date])) {
+            $_SESSION["error"] = "Error al crear la cuenta.";
+            header("Location: ../View/sign_in.php");
+            exit;
+        }
+
+        $_SESSION["success"] = "Registro exitoso. Inicia sesión.";
+        header("Location: ../View/login.php");
+        exit;
     }
 }
