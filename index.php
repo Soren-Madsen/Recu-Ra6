@@ -1,11 +1,14 @@
 <?php
-    include "./Controller/UserController.php";
+include "./Controller/UserController.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="./View/files/style/navbar.css">
     <link rel="stylesheet" href="./View/files/style/index.css">
+    <link rel="stylesheet" href="./View/files/style/chooseEventAction.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cine Fest Catalunya // Página principal</title>
@@ -14,10 +17,12 @@
     #home {
         background-color: #858585;
     }
+
     #home:hover {
         cursor: default;
     }
 </style>
+
 <body>
     <header>
         <ul id="navbar">
@@ -43,11 +48,11 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
-                <?php if(isset($_SESSION["email"])) {
+                <?php if (isset($_SESSION["email"])) {
                     echo '
-                    <h3 id="usr-email">'.$_SESSION['email'].'</h3>
+                    <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
                     <img src="./View/files/img/usr_test.png" id="user-pfp">
-                    <h1 id="usr-name">Bienvenido, '.$_SESSION['username'].'!</h1>
+                    <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
                     <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
                     <!--placeholders-->
                     <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
@@ -57,12 +62,15 @@
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
                     <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
-                }?>
+                } ?>
             </div>
         </ul>
     </header>
     <events>
         <event class="event-slideshow"></event>
+        <div class="coverArtRectangle">
+            <a href="./View/events.php" id="events"></a>
+        </div>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>
         <event class="event-slideshow"></event>
@@ -80,4 +88,5 @@
 </body>
 <script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
 <script src="./View/files/js/navbar.js"></script>
+
 </html>
