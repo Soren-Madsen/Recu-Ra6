@@ -50,7 +50,7 @@ class UserController
 
         $stmt = $this->conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
         $stmt->execute([$email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch();
 
         if (!$user) {
             $_SESSION["error"] = "Usuario no encontrado";
