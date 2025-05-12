@@ -4,11 +4,11 @@ session_start();
 // check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // check button
-    if (isset($_POST["login"])) {
+    if (isset($_POST["read"])) {
         $user = new EventController();
         echo "<p>Got past MySQL connection</p>";
-        echo "<p>Login button is clicked.</p>";
-        $user->login();
+        echo "<p>read button is clicked.</p>";
+        $user->read();
     }
 
     if (isset($_POST["logout"])) {
@@ -17,18 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user->logout();
     }
 
-    if (isset($_POST["register"])) {
+    if (isset($_POST["create"])) {
         $user = new EventController();
-        echo "<p>Register button is clicked.</p>";
-        $user->register();
+        echo "<p>create button is clicked.</p>";
+        $user->create();
     }
 }
 
 class EventController
 {
 
-    /** STEP BY STEP LOGIN 
-     * LOGIN USER TO APPLICATION 
+    /** STEP BY STEP read 
+     * read USER TO APPLICATION 
      * RECUPERAR LO QUE EL USUARIO ENVIO $POST
      * CONECTAR MYSQL
      * EVALUAR EL RESULTADO
@@ -55,8 +55,8 @@ class EventController
         }
     }
 
-    public function login(): void {}
+    public function read(): void {}
 
     public function logout(): void {}
-    public function register(): void {}
+    public function create(): void {}
 }
