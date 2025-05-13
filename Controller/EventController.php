@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user->read();
     }
 
-    if (isset($_POST["logout"])) {
+    if (isset($_POST["delete"])) {
         $user = new EventController();
         echo "<p>Logout button is clicked.</p>";
-        $user->logout();
+        $user->delete();
     }
 
     if (isset($_POST["create"])) {
@@ -27,13 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 class EventController
 {
 
-    /** STEP BY STEP read 
-     * read USER TO APPLICATION 
-     * RECUPERAR LO QUE EL USUARIO ENVIO $POST
-     * CONECTAR MYSQL
-     * EVALUAR EL RESULTADO
-     * REDIRIGIR A USERPROFILE
-     */
+
 
     private $conn;
     public function __construct()
@@ -55,8 +49,17 @@ class EventController
         }
     }
 
-    public function read(): void {}
+    public function read(): void
+    {
+        /** STEP BY STEP READ 
+         * READ EVENT TO APPLICATION 
+         * RECUPERAR LO QUE EL EVENTO ENVIO $POST
+         * CONECTAR MYSQL
+         * EVALUAR EL RESULTADO
+         * REDIRIGIR A LA PESTAÑA EVENTO
+         */
+    }
 
-    public function logout(): void {}
+    public function delete(): void {}
     public function create(): void {}
 }
