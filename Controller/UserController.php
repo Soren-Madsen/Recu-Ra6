@@ -11,9 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["logout"])) {
         $user->logout();
     }
-
     if (isset($_POST["register"])) {
         $user->register();
+    }
+    if (isset($_POST["delete"])) {
+        $user->delete();
     }
 }
 
@@ -116,4 +118,56 @@ class UserController
         header("Location: ../View/login.php");
         exit;
     }
+
+    public function delete(): void
+    {
+        if (!isset($_SESSION['logged']) || $_SESSION['logged'] !== true) {
+            $_SESSION["error"] = "Debes iniciar sesión para realizar esta acción";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
+        $user_id = $_SESSION['id'];
+
+        if (!$user_id || $user_id <= 0) {
+            $_SESSION["error"] = "ID de usuario inválido";
+            header("Location: ../View/userprofile.php");
+            exit;
+        }
+        try {
+          
+            $this->conn->beginTransaction();
+
+            // Eliminar el usuario
+            $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->execute([$user_id]);
+    
+            // Verificar si se eliminó algún registro
+            if ($stmt->rowCount() === 0) {
+                $this->conn->rollBack();
+                $_SESSION["error"] = "Usuario no encontrado";
+                header("Location: ../View/userprofile.php");
+                exit;
+            }
+    
+            $this->conn->commit();
+    
+            // Si el usuario se eliminó a sí mismo, cerrar sesión
+            if ($user_id == $_SESSION['id']) {
+                $this->logout();
+            } else {
+                $_SESSION["success"] = "Usuario eliminado correctamente";
+                header("Location: ../View/admin/users.php"); 
+                exit;
+            }
+    
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log("Error al eliminar usuario: " . $e->getMessage());
+            $_SESSION["error"] = "Error al eliminar el usuario";
+            header("Location: ../View/userprofile.php");
+            exit;
+        }
+    }
+    
 }
