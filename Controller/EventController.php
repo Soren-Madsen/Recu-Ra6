@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// check if form is submitted
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // check button
+    
     if (isset($_POST["read"])) {
         $user = new EventController();
         echo "<p>Got past MySQL connection</p>";
@@ -30,24 +30,27 @@ class EventController
 
 
     private $conn;
+    
     public function __construct()
     {
-        // Conexión a la base de datos
+        
         $servername = "localhost";
         $username = "root";
         $password = "";
         $database = "CFC";
 
-        $this->conn = new mysqli($servername, $username, $password, $database);
-
-        $dbCheck = $this->conn->query("SELECT DATABASE()");
-        $dbRow = $dbCheck->fetch_row();
-        echo ("Connected to DB: " . $dbRow[0]);
-
-        if ($this->conn->connect_error) {
-            die("Conexión failed: " . $this->conn->connect_error);
+        try {
+            $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+           
+            $dbName = $this->conn->query("SELECT DATABASE()")->fetchColumn();
+            echo "Connected to DB: " . $dbName;
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
         }
     }
+
 
     public function read(): void
     {
