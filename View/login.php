@@ -23,6 +23,10 @@
             echo '<div id="alert">' . $_SESSION['error'] . '</div>';
             unset($_SESSION['error']); // Eliminar el mensaje después de mostrarlo
         }
+        if (isset($_SESSION['info'])) {
+            echo '<div id="alert">' . $_SESSION['info'] . '</div>';
+            unset($_SESSION['info']);
+        }
         ?>
         <div id="rectangle">
             <form action="../Controller/UserController.php" method="POST">
