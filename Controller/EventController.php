@@ -68,7 +68,7 @@ class EventController
         $checkStmt = $this->conn->prepare("SELECT title FROM events WHERE title = ?");
         $checkStmt->execute([$title]);
 
-        if ($checkStmt -> rowCount() > 0) {
+        if ($checkStmt->rowCount() > 0) {
             $_SESSION["error"] = "Ya existe un evento con este nombre.";
             header("../View/event.php");
         }
@@ -95,5 +95,34 @@ class EventController
          */
     }
 
-    public function delete(): void {}
+    public function delete(): void
+    {
+
+        if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
+            $_SESSION["error"] = "ID inválido para eliminar.";
+            header("Location: ../View/event.php");
+            exit;
+        }
+
+        $id = intval($_POST['id']);
+
+        $checkStmt = $this->conn->prepare("SELECT * FROM events WHERE id = ?");
+        $checkStmt->execute([$id]);
+
+        if ($checkStmt->rowCount() === 0) {
+            $_SESSION["error"] = "El evento no existe.";
+            header("Location: ../View/event.php");
+            exit;
+        }
+
+        $deleteStmt = $this->conn->prepare("DELETE FROM events WHERE id = ?");
+        if ($deleteStmt->execute([$id])) {
+            $_SESSION["success"] = "Evento eliminado correctamente.";
+        } else {
+            $_SESSION["error"] = "Error al eliminar el evento. Intente de nuevo.";
+        }
+
+        header("Location: ../View/event.php");
+        exit;
+    }
 }
