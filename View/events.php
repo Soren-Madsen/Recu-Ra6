@@ -121,7 +121,7 @@ include "../Controller/UserController.php";
             <h3>Título del Evento</h3>
             <p class="event-genre">Género: Drama</p>
             <p class="event-date">Fecha: 2023-11-15</p>
-            <a class="more-info" id="evento" href="/CFC/View/event.php" >Más información</a>
+            <a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
           </div>
         </div>
       </div>
