@@ -121,7 +121,7 @@ class UserController
         exit;
     }
 
-    
+
     public function logout(): void
     {
         session_start();

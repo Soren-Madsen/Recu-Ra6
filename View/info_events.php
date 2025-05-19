@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./files/style/Info_Eventos.css">
   <title>Descripción Evento</title>
 </head>
+
 <body>
 
   <div class="container">
@@ -39,4 +41,5 @@
   </div>
 
 </body>
+
 </html>

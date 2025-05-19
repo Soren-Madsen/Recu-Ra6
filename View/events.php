@@ -133,4 +133,6 @@ include "../Controller/UserController.php"; // Asegúrate que el path sea correc
   <script src="./files/js/navbar.js"></script>
 </body>
 
+<script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
+
 </html>

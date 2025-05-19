@@ -3,11 +3,9 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = new UserController();
-
     if (isset($_POST["login"])) {
         $user->login();
     }
-
     if (isset($_POST["logout"])) {
         $user->logout();
     }
@@ -25,7 +23,7 @@ class UserController
 
     public function __construct()
     {
-        $servername = "localhost";
+        $servername = "127.0.0.1";
         $username = "root";
         $password = "";
         $database = "CFC";
@@ -51,35 +49,33 @@ class UserController
         $inputPassword = $_POST['password'];
 
         $stmt = $this->conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
 
-        if (!$user) {
+        if (!$stmt->execute([$email])) {
+            $_SESSION["error"] = "Error en la consulta";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
+        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($user[0]["email"])) {
             $_SESSION["error"] = "Usuario no encontrado";
             header("Location: ../View/login.php");
             exit;
         }
 
-        if (!password_verify($inputPassword, $user['password'])) {
+        if (!password_verify($inputPassword, $user[0]["password"])) {
             $_SESSION["error"] = "Contraseña incorrecta";
             header("Location: ../View/login.php");
             exit;
         }
 
         $_SESSION['logged'] = true;
-        $_SESSION['id'] = $user['id'];
-        $_SESSION['username'] = $user['name'];
-        $_SESSION['email'] = $user['email'];
+        $_SESSION['id'] = $user[0]['id'];
+        $_SESSION['username'] = $user[0]['name'];
+        $_SESSION['email'] = $user[0]['email'];
 
-        header("Location: ../View/userprofile.php");
-        exit;
-    }
-
-    public function logout(): void
-    {
-        session_unset();
-        session_destroy();
-        header("Location: ../View/login.php");
+        header("Location: ../index.php");
         exit;
     }
 
@@ -135,13 +131,12 @@ class UserController
             exit;
         }
         try {
-          
             $this->conn->beginTransaction();
 
             // Eliminar el usuario
             $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
             $stmt->execute([$user_id]);
-    
+
             // Verificar si se eliminó algún registro
             if ($stmt->rowCount() === 0) {
                 $this->conn->rollBack();
@@ -149,18 +144,17 @@ class UserController
                 header("Location: ../View/userprofile.php");
                 exit;
             }
-    
+
             $this->conn->commit();
-    
+
             // Si el usuario se eliminó a sí mismo, cerrar sesión
             if ($user_id == $_SESSION['id']) {
                 $this->logout();
             } else {
                 $_SESSION["success"] = "Usuario eliminado correctamente";
-                header("Location: ../View/admin/users.php"); 
+                header("Location: ../View/admin/users.php");
                 exit;
             }
-    
         } catch (PDOException $e) {
             $this->conn->rollBack();
             error_log("Error al eliminar usuario: " . $e->getMessage());
@@ -169,5 +163,4 @@ class UserController
             exit;
         }
     }
-    
 }

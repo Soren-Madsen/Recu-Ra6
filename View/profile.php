@@ -34,11 +34,11 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
-                <?php if(isset($_SESSION["email"])) {
+                <?php if (isset($_SESSION["email"])) {
                     echo '
-                    <h3 id="usr-email">'.$_SESSION['email'].'</h3>
+                    <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
                     <img src="./files/img/usr_test.png" id="user-pfp">
-                    <h1 id="usr-name">Bienvenido, '.$_SESSION['username'].'!</h1>
+                    <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
                     <button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
                     <!--placeholders-->
                     <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
@@ -48,13 +48,13 @@
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
                     <button class="user-action" id="login"><a href="./login.php">Login</a></button>';
-                }?>
+                } ?>
             </div>
         </ul>
     </header>
     <div id="container">
-    <?php if(isset($_SESSION["email"])) {
-        echo '<div id="profile-container">
+        <?php if (isset($_SESSION["email"])) {
+            echo '<div id="profile-container">
             <div id="sidebar">
                 <h2>Configuración</h2>
                 <ul>
@@ -96,10 +96,11 @@
                 </div>
             </div>
         </div>';
-    } else {
-        echo 'No has iniciado sesión.';
-    } ?>
+        } else {
+            echo 'No has iniciado sesión.';
+        } ?>
     </div>
 </body>
 <script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
+
 </html>
