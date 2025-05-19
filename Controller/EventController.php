@@ -74,32 +74,46 @@ class EventController
         $eventDate = $_POST['eventDate'];
         $trailerVideo = $_POST['trailerVideo'];
 
-        $stmt = $this->conn->prepare("SELECT id, title, genre, synopsis, crew, eventDate, trailerVideo FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT id, title, genre, synopsis, crew, eventDate, trailerVideo FROM events WHERE title = ?");
 
-        if (!$stmt->execute([$email])) {
+        if (!$stmt->execute([$title])) {
             $_SESSION["error"] = "Error en la consulta";
-            header("Location: ../View/login.php");
+            header("Location: ../View/events.php");
             exit;
         }
 
-        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $event = $stmt->fetchAll(mode: PDO::FETCH_ASSOC);
 
-        if (empty($user[0]["email"])) {
+        if (empty($event[0]["event"])) {
             $_SESSION["error"] = "Usuario no encontrado";
-            header("Location: ../View/login.php");
+            header("Location: ../View/events.php");
             exit;
         }
 
-        if (!password_verify($inputPassword, $user[0]["password"])) {
-            $_SESSION["error"] = "Contraseña incorrecta";
-            header("Location: ../View/login.php");
-            exit;
+        // EXECUTE STATEMENT CODE
+        function executeStatement($stmt, $param)
+        {
+            if (!$stmt->execute([$param])) {
+                $_SESSION["error"] = "Error en la consulta";
+                header("Location: ../View/events.php");
+                exit;
+            }
         }
 
-        $_SESSION['logged'] = true;
-        $_SESSION['id'] = $user[0]['id'];
-        $_SESSION['username'] = $user[0]['name'];
-        $_SESSION['email'] = $user[0]['email'];
+        executeStatement($stmt, $genre);
+        executeStatement($stmt, $synopsis);
+        executeStatement($stmt, $crew);
+        executeStatement($stmt, $eventDate);
+        executeStatement($stmt, $trailerVideo);
+
+
+        $_SESSION['event'] = true;
+        $_SESSION['title'] = $title[0]['title'];
+        $_SESSION['genre'] = $genre[0]['genre'];
+        $_SESSION['synopsis'] = $synopsis[0]['synopsis'];
+        $_SESSION['crew'] = $crew[0]['crew'];
+        $_SESSION['eventDate'] = $eventDate[0]['eventDate'];
+        $_SESSION['trailerVideo'] = $trailerVideo[0]['trailerVideo'];
 
         header("Location: ../index.php");
         exit;
