@@ -29,7 +29,7 @@ class UserController
         header("Location: ../View/login.php");
         exit;
     }
-    
+
     public function __construct()
     {
         $servername = "127.0.0.1";
@@ -170,6 +170,18 @@ class UserController
             $_SESSION["error"] = "Error al eliminar el usuario";
             header("Location: ../View/userprofile.php");
             exit;
+        }
+    }
+
+    public function update(): void
+    {
+        $newName = trim($_POST["name"]);
+        $newEmail = trim($_POST["email"]);
+        $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+        if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["error"] = "Datos invalidos.";
+            header("../View/profile.php");
         }
     }
 }

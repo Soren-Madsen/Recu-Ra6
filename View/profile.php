@@ -1,3 +1,5 @@
+<?php include "../Controller/UserController.php"; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -62,13 +64,13 @@
                     <li><a href="#">Cambiar Contraseña</a></li>
                     <li><a href="#">Notificaciones</a></li>
                     <li><a href="#">Seguridad</a></li>
-                    <li><a href="#">Cerrar sesión</a></li>
+                    <li><a href="../Controller/logout.php">Cerrar sesión</a></li>
                 </ul>
             </div>
 
             <div id="content">
                 <div id="welcome-section">
-                    <h1>Bienvenido, Usuario</h1>
+                    <h1>Bienvenido, ' . $_SESSION["username"] . '</h1>
                 </div>
 
                 <div class="profile-section">
@@ -76,9 +78,7 @@
                     <form id="profile-form">
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
-                            <select id="nombre" class="inputbox">
-                                <option>Selecciona tu nombre</option>
-                            </select>
+                            <input type="text" id="nombre" class="inputbox" name="username" value="' . $_SESSION["username"] . '">
                         </div>
 
                         <div class="form-group">

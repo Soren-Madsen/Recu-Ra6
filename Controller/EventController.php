@@ -86,28 +86,39 @@ class EventController
 
     public function read(): void
     {
-        /** STEP BY STEP READ 
-         * READ EVENT TO APPLICATION 
-         * RECUPERAR LO QUE EL EVENTO ENVIO $POST
-         * CONECTAR MYSQL
-         * EVALUAR EL RESULTADO
-         * REDIRIGIR A LA PESTAÑA EVENTO
-         */
+        $readStmt = $this->conn->prepare("SELECT * FROM events");
+        if (!$readStmt->execute()) {
+            $_SESSION["error"] = "Ha habido un error al recoger los datos del evento.";
+            header("../View/event.php");
+            exit;
+        }
+
+        $eventdata = $readStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $_SESSION["fetch-successful"] = true;
+        $_SESSION["event-title"] = $eventdata[0]["title"];
+        $_SESSION["genre"] = $eventdata[0]["genre"];
+        $_SESSION["synopsis"] = $eventdata[0]["synopsis"];
+        $_SESSION["crew"] = $eventdata[0]["crew"];
+        $_SESSION["eventDate"] = $eventdata[0]["eventDate"];
+        $_SESSION["trailerVideo"] = $eventdata[0]["trailerVideo"];
     }
+
+    // Needs another method to comply with the event page filters
+    public function read_filters(): void {}
 
     public function delete(): void
     {
+        $title = $_POST["title"];
 
-        if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
-            $_SESSION["error"] = "ID inválido para eliminar.";
+        if (empty($title)) {
+            $_SESSION["error"] = "Datos inválidos.";
             header("Location: ../View/event.php");
             exit;
         }
 
-        $id = intval($_POST['id']);
-
-        $checkStmt = $this->conn->prepare("SELECT * FROM events WHERE id = ?");
-        $checkStmt->execute([$id]);
+        $checkStmt = $this->conn->prepare("SELECT * FROM events WHERE title = ?");
+        $checkStmt->execute([$title]);
 
         if ($checkStmt->rowCount() === 0) {
             $_SESSION["error"] = "El evento no existe.";
@@ -115,8 +126,8 @@ class EventController
             exit;
         }
 
-        $deleteStmt = $this->conn->prepare("DELETE FROM events WHERE id = ?");
-        if ($deleteStmt->execute([$id])) {
+        $deleteStmt = $this->conn->prepare("DELETE FROM events WHERE title = ?");
+        if ($deleteStmt->execute([$title])) {
             $_SESSION["success"] = "Evento eliminado correctamente.";
         } else {
             $_SESSION["error"] = "Error al eliminar el evento. Intente de nuevo.";
