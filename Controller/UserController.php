@@ -21,6 +21,15 @@ class UserController
 {
     private $conn;
 
+    private function logout(): void
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: ../View/login.php");
+        exit;
+    }
+    
     public function __construct()
     {
         $servername = "127.0.0.1";
