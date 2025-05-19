@@ -1,5 +1,5 @@
 <?php
-include "../Controller/UserController.php"; // Asegúrate que el path sea correcto según tu estructura
+include "../Controller/UserController.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,10 +8,8 @@ include "../Controller/UserController.php"; // Asegúrate que el path sea correc
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineFest Catalunya // Eventos</title>
-
-  <!-- Estilos del navbar -->
   <link rel="stylesheet" href="./files/style/navbar.css">
-
+  <link rel="stylesheet" href="./files/style/style.css">
   <!-- Estilos específicos de eventos -->
   <link rel="stylesheet" href="./files/style/events.css">
 
@@ -123,7 +121,7 @@ include "../Controller/UserController.php"; // Asegúrate que el path sea correc
             <h3>Título del Evento</h3>
             <p class="event-genre">Género: Drama</p>
             <p class="event-date">Fecha: 2023-11-15</p>
-            <button class="more-info">Más información</button>
+            <a class="more-info" id="evento" href="/CFC/View/event.php" >Más información</a>
           </div>
         </div>
       </div>
