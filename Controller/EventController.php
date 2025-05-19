@@ -53,55 +53,34 @@ class EventController
 
     public function create(): void
     {
-        /** STEP BY STEP CREATE 
-         * CREATE EVENT TO APPLICATION 
-         * RECUPERAR LO QUE EL EVENT ENVIO $POST
-         * CONECTAR MYSQL
-         * EVALUAR EL RESULTADO
-         * REDIRIGIR A LA PESTAÑA EVENTO
-         */
+        $title = trim($_POST['title']);
+        $genre = trim($_POST['genre']);
+        $synopsis = trim($_POST['synopsis']);
+        $crew = trim($_POST['crew']);
+        $eventDate = trim($_POST['eventDate']);
+        $trailerVideo = trim($_POST['trailerVideo']);
 
-        if (empty($_POST['event'])) {
-            $_SESSION["error"] = "No hay eventos registrados.";
-            header("Location: ../View/events.php");
-            exit;
+        if (empty($title) || empty($eventDate)) {
+            $_SESSION["error"] = "Datos inválidos.";
+            header("../View/event.php");
         }
 
-        $title = $_POST['title'];
-        $genre = $_POST['genre'];
-        $synopsis = $_POST['synopsis'];
-        $crew = $_POST['crew'];
-        $eventDate = $_POST['eventDate'];
-        $trailerVideo = $_POST['trailerVideo'];
+        $checkStmt = $this->conn->prepare("SELECT title FROM events WHERE title = ?");
+        $checkStmt->execute([$title]);
 
-        $stmt = $this->conn->prepare("SELECT id, title, genre, synopsis, crew, eventDate, trailerVideo FROM users WHERE email = ?");
-
-        if (!$stmt->execute([$email])) {
-            $_SESSION["error"] = "Error en la consulta";
-            header("Location: ../View/login.php");
-            exit;
+        if ($checkStmt -> rowCount() > 0) {
+            $_SESSION["error"] = "Ya existe un evento con este nombre.";
+            header("../View/event.php");
         }
 
-        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (empty($user[0]["email"])) {
-            $_SESSION["error"] = "Usuario no encontrado";
-            header("Location: ../View/login.php");
-            exit;
+        $createStmt = $this->conn->prepare("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?)");
+        if ($createStmt->execute([$title, $genre, $synopsis, $crew, $eventDate, $trailerVideo])) {
+            $_SESSION["error"] = "Hubo un error en crear el evento, acude el equipo administrativo.";
+            header("../View/event.php");
         }
 
-        if (!password_verify($inputPassword, $user[0]["password"])) {
-            $_SESSION["error"] = "Contraseña incorrecta";
-            header("Location: ../View/login.php");
-            exit;
-        }
-
-        $_SESSION['logged'] = true;
-        $_SESSION['id'] = $user[0]['id'];
-        $_SESSION['username'] = $user[0]['name'];
-        $_SESSION['email'] = $user[0]['email'];
-
-        header("Location: ../index.php");
+        $_SESSION["success"] = "Evento creado satisfactoriamente.";
+        header("../View/event.php");
         exit;
     }
 
