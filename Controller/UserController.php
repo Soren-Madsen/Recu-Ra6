@@ -42,7 +42,7 @@ class UserController
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             echo "Connected to DB: " . $database . "<br>";
         } catch (PDOException $e) {
-            die("Conexión fallida: " . $e->getMessage());
+            die("Conexión fallida: " . $e->getMessage() . "\nContacte un administrador.");
         }
     }
 
@@ -173,15 +173,87 @@ class UserController
         }
     }
 
-    public function update(): void
+    public function updateProfile(): void
     {
         $newName = trim($_POST["name"]);
         $newEmail = trim($_POST["email"]);
-        $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
         if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
             $_SESSION["error"] = "Datos invalidos.";
             header("../View/profile.php");
+            exit;
         }
+
+        $updateStmt = $this->conn->prepare("UPDATE users SET name = ?, email = ? WHERE id = ?");
+        if (!$updateStmt->execute([$newName, $newEmail, $_SESSION["id"]])) {
+            $_SESSION["error"] = "Ha habido un error al actualizar el usuario, contacte un administrador.";
+            header("Location: ../View/profile.php");
+            exit;
+        }
+
+        $readStmt = $this->conn->prepare("SELECT name, email FROM users WHERE id = ?");
+
+        if (!$readStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error en la consulta";
+            header("Location: ../View/login.php");
+            exit;
+        }
+
+        $user = $readStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$user) {
+            $_SESSION["error"] = "Error inesperado (tu cuenta existe?)";
+            header("Location: ../View/profile.php");
+            exit;
+        }
+
+        // Update session variables to accomodate new values.
+        $_SESSION["username"] = $user["name"];
+        $_SESSION["email"] = $user["email"];
+        $_SESSION["success"] = "Perfil actualizado correctamente!";
+        header("Location: ../View/profile.php");
+        exit;
+    }
+
+    public function updatePasswd(): void
+    {
+        $newPasswd = trim(password_hash($_POST["passwd"], PASSWORD_DEFAULT)) ?? '';
+        $oldPasswd = trim($_POST["oldpassword"]) ?? '';
+
+        if (empty($oldPasswordInput) || empty($newPasswordInput)) {
+            $_SESSION["error"] = "Datos invalidos.";
+            header("Location: ../View/password_update.php");
+            exit;
+        }
+
+        $readStmt = $this->conn->prepare("SELECT password FROM users WHERE id = ?");
+        if (!$readStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error inesperado, no se ha podido leer la base de datos.";
+            header("Location: ../View/password_update.php");
+            exit;
+        }
+
+        $oldPasswdDB = $readStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$oldPasswdDB) {
+            $_SESSION["error"] = "Error inesperado (el usuario existe?)";
+            header("Location: ../View/password_update.php");
+            exit;
+        }
+
+        if (!password_verify($oldPasswd, $oldPasswdDB["password"])) {
+            $_SESSION["error"] = "La contraseñas antiguas no coinciden.";
+            header("Location: ../View/password_update.php");
+            exit;
+        }
+
+        $updateStmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        if (!$updateStmt->execute([$newPasswd, $_SESSION["id"]])) {
+            $_SESSION["error"] = "Ha habido un error al guardar la nueva contraseña, contacte un administrador.";
+            header("Location: ../View/password_update.php");
+            exit;
+        }
+
+        $_SESSION["success"] = "Contraseña actualizada exitosamente.";
+        header("Location: ../View/password_update.php");
+        exit;
     }
 }

@@ -176,23 +176,12 @@ class EventController
 
         $deleteStmt = $this->conn->prepare("DELETE FROM events WHERE title = ?");
         if ($deleteStmt->execute([$title])) {
-            $_SESSION["success"] = " El Evento eliminado correctamente.";
+            $_SESSION["success"] = "El evento se ha eliminado correctamente.";
         } else {
-            $_SESSION["error"] = "Error al eliminar el evento. Intente de nuevo mas tarde.";
+            $_SESSION["error"] = "Error al eliminar el evento, contacte con un administrador.";
         }
 
         header("Location: ../View/event.php");
         exit;
-    }
-
-    public function Update() : void 
-    {
-
-
-
-
-
-
-
-    }
+    }   
 }
