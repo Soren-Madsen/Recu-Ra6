@@ -26,14 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 class EventController
 {
-
-
-
     private $conn;
 
     public function __construct()
     {
-
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -106,6 +102,22 @@ class EventController
 
     // Needs another method to comply with the event page filters
     public function read_filters(): void {}
+
+    public function update(): void
+    {
+
+        $newTitle = trim($_POST['title']);
+        $genre = trim($_POST['genre']);
+        $synopsis = trim($_POST['synopsis']);
+        $crew = trim($_POST['crew']);
+        $eventDate = trim($_POST['eventDate']);
+        $trailerVideo = trim($_POST['trailerVideo']);
+
+        if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["error"] = "Datos invalidos.";
+            header("../View/profile.php");
+        }
+    }
 
     public function delete(): void
     {

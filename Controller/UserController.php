@@ -175,11 +175,15 @@ class UserController
 
     public function update(): void
     {
-        $newName = trim($_POST["name"]);
+        if (!isset($_SESSION["id"])){
+            $_SESSION["error"] = "No puedes modificar eventos";
+        }
+
+        $newName = trim(string: $_POST["name"]);
         $newEmail = trim($_POST["email"]);
         $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-        if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+        if (empty($newName) || !filter_var(value: $newEmail, FILTER_VALIDATE_EMAIL)) {
             $_SESSION["error"] = "Datos invalidos.";
             header("../View/profile.php");
         }
