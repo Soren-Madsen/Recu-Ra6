@@ -223,9 +223,15 @@ select.inputbox {
   	}
 
   	#sidebar {
-    	width: 100%;
+		position: relative;
+		align-self: center;
+		padding: 0px;
+		padding-bottom: 30px;
+    	width: 90%;
+		margin-top: 10px;
     	border-right: none;
     	border-bottom: 1px solid #eee;
+		margin-bottom: 20px;
   	}
 
   	#events-grid {
