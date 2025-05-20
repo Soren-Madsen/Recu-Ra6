@@ -44,6 +44,10 @@
             </div>
             <div id="user-info">
                 <h1 id="profile">Perfil</h1>
+
+
+                <!-- comienza el php -->
+
                 <?php if (isset($_SESSION["email"])) {
                     echo '
                     <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
@@ -72,12 +76,14 @@
         <event class="event-slideshow"></event>
         <event id="main-event">
     </events>
+
     <div id="functions">
         <p>Proximamente</p>
         <p>Pendiente</p>
         <p>En curso</p>
         <p>Cancelado</p>
     </div>
+
     <div id="sponsors">
 
     </div>
