@@ -157,7 +157,8 @@ select.inputbox {
 
 #sidebar {
 	position: sticky;
-	top: 60px;
+	top: 30px;
+	align-self: flex-start;
 }
 
 .play-trailer {
