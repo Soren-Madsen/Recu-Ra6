@@ -106,8 +106,6 @@ class EventController
 
     // Needs another method to comply with the event page filters
     public function read_filters(): void {}
-
-
     
     public function delete(): void
     {
