@@ -113,10 +113,6 @@ class EventController
         $eventDate = trim($_POST['eventDate']);
         $trailerVideo = trim($_POST['trailerVideo']);
 
-        if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION["error"] = "Datos invalidos.";
-            header("../View/profile.php");
-        }
     }
 
     public function delete(): void
