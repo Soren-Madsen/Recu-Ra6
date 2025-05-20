@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = new EventController();
         echo "<p>Got past MySQL connection</p>";
         echo "<p>read button is clicked.</p>";
-        $user->read();
+        $user->readAll();
     }
 
     if (isset($_POST["delete"])) {
@@ -84,7 +84,7 @@ class EventController
         exit;
     }
 
-    public function read(): void
+    public function readAll(): void
     {
         $readStmt = $this->conn->prepare("SELECT * FROM events");
         if (!$readStmt->execute()) {
@@ -140,7 +140,7 @@ class EventController
     public function Update() : void 
     {
 
-        
+
 
 
 
