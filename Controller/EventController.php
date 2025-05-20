@@ -106,7 +106,7 @@ class EventController
 
     // Needs another method to comply with the event page filters
     public function read_filters(): void {}
-    
+
     public function delete(): void
     {
         $title = $_POST["title"];
@@ -135,5 +135,16 @@ class EventController
 
         header("Location: ../View/event.php");
         exit;
+    }
+
+    public function Update() : void 
+    {
+
+        
+
+
+
+
+
     }
 }
