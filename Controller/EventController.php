@@ -22,6 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p>create button is clicked.</p>";
         $user->create();
     }
+
+    if (isset($_POST["read_filters"])) {
+        $user = new EventController();
+        echo "<p>Clicked filter button";
+        $user->read_filters();
+    }
 }
 
 class EventController
@@ -105,7 +111,49 @@ class EventController
     }
 
     // Needs another method to comply with the event page filters
-    public function read_filters(): void {}
+    public function read_filters(): void {
+        $genre = $_POST["genre"];
+        $location = $_POST["location"];
+        $date = $_POST["date"];
+
+        $query = "SELECT * FROM events WHERE 1 = 1";
+        if ($genre) {
+            $query .= "AND genre'".$genre."'";
+        }
+        if ($location) {
+            $query .= "AND location'".$location."'";
+        }
+        if ($date) {
+            $query .= "AND date'".$date."'";
+        }
+
+        $readFiltersStmt = $this->conn->prepare($query);
+        if (!$this->conn->exec($readFiltersStmt)) {
+            $_SESSION["error"] = "There was an error searching for events provided the filters.";
+            header("../View/events.php");
+            exit;
+        }
+
+        if ($readFiltersStmt->rowCount() < 1) {
+            $_SESSION["error"] = "Found no events provided the filters.";
+            header("../View/events.php");
+            exit;
+        }
+
+        $event = $readFiltersStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $_SESSION["ev-title"] = $event[0]["title"];
+    }
+
+    public function update(): void
+    {
+        $newTitle = trim($_POST['title']);
+        $genre = trim($_POST['genre']);
+        $synopsis = trim($_POST['synopsis']);
+        $crew = trim($_POST['crew']);
+        $eventDate = trim($_POST['eventDate']);
+        $trailerVideo = trim($_POST['trailerVideo']);
+    }
 
     public function delete(): void
     {
