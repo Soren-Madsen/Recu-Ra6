@@ -60,8 +60,8 @@
             <div id="sidebar">
                 <h2>Configuración</h2>
                 <ul>
-                    <li><a href="#" class="active">Datos Personales</a></li>
-                    <li><a href="./update_password.php">Cambiar Contraseña</a></li>
+                    <li><a href="./profile.php">Datos Personales</a></li>
+                    <li><a href="#" class="active">Cambiar Contraseña</a></li>
                     <li><a href="#">Notificaciones</a></li>
                     <li><a href="#">Seguridad</a></li>
                     <li><a href="../Controller/logout.php">Cerrar sesión</a></li>
