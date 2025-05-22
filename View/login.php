@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'index.php'; // fallback if get variable is not found
+?>
+
 <head>
     <link rel="stylesheet" href="/files/style/style.css">
     <link rel="stylesheet" href="files/style/login.css">
@@ -51,6 +55,7 @@
                 </h3>
 
                 <!-- LOGIN -->
+                <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
                 <input type="submit" name="login" id="login" value="Inicia sesión" />
             </form>
             <!-- BOTON REGISTRO -->

@@ -1,4 +1,7 @@
-<?php include "../Controller/UserController.php"; ?>
+<?php
+include "../Controller/UserController.php";
+$redirect = $_SERVER["REQUEST_URI"]; 
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,7 +23,7 @@
                 <i class="fas fa-bars"></i>
             </label>
             <div id="nav-left">
-                <a href="#" id="home">Home</a>
+                <a href="../index.php" id="home">Home</a>
                 <a href="./events.php" id="events">Eventos</a>
                 <a href="./calendar.php" id="calendar">Calendario</a>
                 <a href="#" id="news">Noticias</a>
@@ -45,8 +48,11 @@
                     <!--placeholders-->
                     <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
                     <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
-                    <!--placeholders-->
-                    <button class="user-action" id="logout"><a href="../Controller/logout.php">Cerrar sesión</a></button>';
+                    <!--placeholders end-->
+                    <form method="POST" action="../Controller/logout.php">
+                        <input type="hidden" name="redirect" value="'.htmlspecialchars($redirect).'">
+                        <button class="user-action" type="submit">Cerrar Sesión</button>
+                    </form>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
                     <button class="user-action" id="login"><a href="./login.php">Login</a></button>';
@@ -97,7 +103,8 @@
             </div>
         </div>';
         } else {
-            echo 'No has iniciado sesión.';
+            header('Location: login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+            exit;
         } ?>
     </div>
 </body>
