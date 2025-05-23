@@ -61,7 +61,7 @@ session_start();
         <?php
         if (isset($_GET['id'])) {
             $eventController = new EventController();
-            $eventController->read();
+            $eventController->readAll();
 
             if (isset($_SESSION['event_data'])) {
                 $event = $_SESSION['event_data'];

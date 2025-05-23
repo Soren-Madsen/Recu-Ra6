@@ -1,33 +1,4 @@
 <?php
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    if (isset($_POST["read"])) {
-        $user = new EventController();
-        echo "<p>Got past MySQL connection</p>";
-        echo "<p>read button is clicked.</p>";
-        $user->readAll();
-    }
-
-    if (isset($_POST["delete"])) {
-        $user = new EventController();
-        echo "<p>Delete button is clicked.</p>";
-        $user->delete();
-    }
-
-    if (isset($_POST["create"])) {
-        $user = new EventController();
-        echo "<p>create button is clicked.</p>";
-        $user->create();
-    }
-
-    if (isset($_POST["read_filters"])) {
-        $user = new EventController();
-        echo "<p>Clicked filter button";
-        $user->read_filters();
-    }
-}
 
 class EventController
 {
@@ -38,12 +9,14 @@ class EventController
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $database = "CFC";
+        $database = "cfc"; // Cambiado de CFC a cfc (minúsculas)
 
         try {
             $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "<!-- DEBUG: Conexión a base de datos exitosa -->";
         } catch (PDOException $e) {
+            echo "<!-- DEBUG: Error de conexión: " . $e->getMessage() . " -->";
             die("Connection failed: " . $e->getMessage());
         }
     }
@@ -87,12 +60,17 @@ class EventController
     public function readAll()
     {
         try {
+            echo "<!-- DEBUG: Ejecutando readAll() -->";
             $readStmt = $this->conn->prepare("SELECT * FROM events ORDER BY eventDate ASC");
             $readStmt->execute();
 
             $eventdata = $readStmt->fetchAll(PDO::FETCH_ASSOC);
+            echo "<!-- DEBUG: Consulta ejecutada, filas obtenidas: " . count($eventdata) . " -->";
+            echo "<!-- DEBUG: Datos obtenidos: " . print_r($eventdata, true) . " -->";
+
             return $eventdata;
         } catch (PDOException $e) {
+            echo "<!-- DEBUG: Error en readAll(): " . $e->getMessage() . " -->";
             $_SESSION["error"] = "Ha habido un error al recoger los datos del evento: " . $e->getMessage();
             return [];
         }

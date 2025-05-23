@@ -1,35 +1,42 @@
 <?php
 session_start();
-include "EventController.php";
+include "../Controller/UserController.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Incluir el EventController
+include "../Controller/EventController.php";
 
-	if (isset($_POST["read"])) {
-		$eventController = new EventController();
-		echo "<p>Got past MySQL connection</p>";
-		echo "<p>read button is clicked.</p>";
-		$events = $eventController->readAll();
-		// Procesar los resultados según necesites
-	}
+// DEBUG: Mostrar errores
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-	if (isset($_POST["delete"])) {
-		$eventController = new EventController();
-		echo "<p>Delete button is clicked.</p>";
-		$eventController->delete();
-	}
+echo "<!-- DEBUG: Iniciando página -->";
 
-	if (isset($_POST["create"])) {
-		$eventController = new EventController();
-		echo "<p>create button is clicked.</p>";
-		$eventController->create();
-	}
-
-	if (isset($_POST["update"])) {
-		$eventController = new EventController();
-		echo "<p>update button is clicked.</p>";
-		$eventController->update();
-	}
+// Instanciar el controlador de eventos para obtener los datos
+try {
+	$eventController = new EventController();
+	echo "<!-- DEBUG: EventController creado exitosamente -->";
+} catch (Exception $e) {
+	echo "<!-- DEBUG: Error creando EventController: " . $e->getMessage() . " -->";
 }
+
+// Obtener todos los eventos por defecto
+$events = [];
+$resultsCount = 0;
+
+// Si se enviaron filtros, procesarlos
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["read-filters"])) {
+	echo "<!-- DEBUG: Procesando filtros -->";
+	$events = $eventController->read_filters();
+} else {
+	echo "<!-- DEBUG: Cargando todos los eventos -->";
+	// Cargar todos los eventos por defecto
+	$events = $eventController->readAll();
+}
+
+echo "<!-- DEBUG: Eventos obtenidos: " . count($events) . " -->";
+echo "<!-- DEBUG: Contenido de eventos: " . print_r($events, true) . " -->";
+
+$resultsCount = count($events);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<i class="fas fa-bars"></i>
 			</label>
 			<div id="nav-left">
-				<a href="../index.php" id="home">Home</a>
+				<a href="./index.php" id="home">Home</a>
 				<a href="./events.php" id="events" style="background-color:#858585;">Eventos</a>
 				<a href="./calendar.php" id="calendar">Calendario</a>
 				<a href="#" id="news">Noticias</a>
@@ -152,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<?php if (!empty($event['synopsis'])): ?>
 									<p class="event-synopsis"><?php echo htmlspecialchars(substr($event['synopsis'], 0, 100)); ?>...</p>
 								<?php endif; ?>
-								<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
+								<a class="more-info" href="./event.php?id=<?php echo $event['id']; ?>">Más información</a>
 							</div>
 						</div>
 					<?php endforeach; ?>
