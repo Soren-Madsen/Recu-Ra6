@@ -79,7 +79,7 @@ class EventController
     public function read_filters()
     {
         $genre = !empty($_POST["genre"]) ? trim($_POST["genre"]) : null;
-        $location = !empty($_POST["location"]) ? trim($_POST["location"]) : null;
+        $location = !empty($_POST["location"]) ? trim(string: $_POST["location"]) : null;
         $date = !empty($_POST["date"]) ? trim($_POST["date"]) : null;
 
         try {

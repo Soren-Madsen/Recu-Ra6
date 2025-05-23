@@ -52,7 +52,6 @@ $resultsCount = count($events);
 </head>
 
 <body>
-	<!-- Navbar completo -->
 	<header>
 		<ul id="navbar">
 			<h1 id="logo">CFC</h1>
@@ -61,9 +60,9 @@ $resultsCount = count($events);
 				<i class="fas fa-bars"></i>
 			</label>
 			<div id="nav-left">
-				<a href="./index.php" id="home">Home</a>
-				<a href="./events.php" id="events" style="background-color:#858585;">Eventos</a>
-				<a href="./calendar.php" id="calendar">Calendario</a>
+				<a href="/CFC/index.php" id="home">Home</a>
+				<a href="/CFC/View/events.php" id="events">Eventos</a>
+				<a href="/CFC/View/calendar.php" id="calendar">Calendario</a>
 				<a href="#" id="news">Noticias</a>
 				<a href="#" id="forums">Foros</a>
 			</div>
@@ -79,16 +78,18 @@ $resultsCount = count($events);
 				<h1 id="profile">Perfil</h1>
 				<?php if (isset($_SESSION["email"])) {
 					echo '
-					<h3 id="usr-email">' . $_SESSION['email'] . '</h3>
-					<img src="./files/img/usr_test.png" id="user-pfp">
-					<h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
-					<button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
-					<button class="user-action" id="useraction1"><a href="#">Mis entradas</a></button>
-					<button class="user-action" id="useraction2"><a href="#">Favoritos</a></button>
-					<button class="user-action" id="logout"><a href="../Controller/logout.php">Cerrar sesión</a></button>';
+                    <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
+                    <img src="./View/files/img/usr_test.png" id="user-pfp">
+                    <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
+                    <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="logout"><a href="./Controller/logout.php">Cerrar sesión</a></button>';
 				} else {
 					echo '<h1 id="not-logged">No has iniciado sesión</h1>
-					<button class="user-action" id="login"><a href="./login.php">Login</a></button>';
+                    <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
 				} ?>
 			</div>
 		</ul>
