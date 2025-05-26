@@ -1,12 +1,10 @@
 <?php
 session_start();
 include "../Controller/UserController.php";
-
-// Incluir el EventController
 include "../Controller/EventController.php";
 
 // DEBUG: Mostrar errores
-error_reporting(E_ALL);
+error_reporting(error_level: E_ALL);
 ini_set('display_errors', 1);
 
 echo "<!-- DEBUG: Iniciando página -->";
@@ -19,7 +17,6 @@ try {
 	echo "<!-- DEBUG: Error creando EventController: " . $e->getMessage() . " -->";
 }
 
-// Obtener todos los eventos por defecto
 $events = [];
 $resultsCount = 0;
 

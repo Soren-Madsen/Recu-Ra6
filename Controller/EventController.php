@@ -6,18 +6,17 @@ class EventController
 
     public function __construct()
     {
-        $servername = "localhost";
+        $servername = "127.0.0.1";
         $username = "root";
         $password = "";
-        $database = "cfc"; // Cambiado de CFC a cfc (minúsculas)
+        $database = "CFC";
 
         try {
-            $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            $this->conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "<!-- DEBUG: Conexión a base de datos exitosa -->";
+            echo "Connected to DB: " . $database . "<br>";
         } catch (PDOException $e) {
-            echo "<!-- DEBUG: Error de conexión: " . $e->getMessage() . " -->";
-            die("Connection failed: " . $e->getMessage());
+            die("Conexión fallida: " . $e->getMessage() . "\nContacte un administrador.");
         }
     }
 
@@ -39,12 +38,14 @@ class EventController
         $checkStmt = $this->conn->prepare("SELECT title FROM events WHERE title = ?");
         $checkStmt->execute([$title]);
 
+        // Verificar si el correo ya existe
         if ($checkStmt->rowCount() > 0) {
             $_SESSION["error"] = "Ya existe un evento con este nombre.";
             header("Location: ../View/event.php");
             exit;
         }
 
+        // Insertar nuevo evento
         $createStmt = $this->conn->prepare("INSERT INTO events (title, genre, synopsis, crew, eventDate, trailerVideo) VALUES (?, ?, ?, ?, ?, ?)");
         if (!$createStmt->execute([$title, $genre, $synopsis, $crew, $eventDate, $trailerVideo])) {
             $_SESSION["error"] = "Hubo un error en crear el evento, acude el equipo administrativo.";
