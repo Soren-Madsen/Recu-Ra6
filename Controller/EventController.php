@@ -1,4 +1,34 @@
 <?php
+session_start();
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (isset($_POST["read"])) {
+        $user = new EventController();
+        echo "<p>Got past MySQL connection</p>";
+        echo "<p>read button is clicked.</p>";
+        $user->readAll();
+    }
+
+    if (isset($_POST["delete"])) {
+        $user = new EventController();
+        echo "<p>Logout button is clicked.</p>";
+        $user->delete();
+    }
+
+    if (isset($_POST["create"])) {
+        $user = new EventController();
+        echo "<p>create button is clicked.</p>";
+        $user->create();
+    }
+
+    if (isset($_POST["read_filters"])) {
+        $user = new EventController();
+        echo "<p>Clicked filter button";
+        $user->read_filters();
+    }
+}
 
 class EventController
 {
@@ -207,7 +237,4 @@ class EventController
         header("Location: ../View/event.php");
         exit;
     }
-
-   
-
 }
