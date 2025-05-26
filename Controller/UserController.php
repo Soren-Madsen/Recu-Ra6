@@ -83,7 +83,8 @@ class UserController
         $_SESSION['id'] = $user[0]['id'];
         $_SESSION['username'] = $user[0]['name'];
         $_SESSION['email'] = $user[0]['email'];
-
+        // admin true o false?
+        
         // Get redirect safely and make sure relative path is valid
         $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : 'index.php';
 
