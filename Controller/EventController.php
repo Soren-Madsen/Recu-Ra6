@@ -144,19 +144,37 @@ class EventController
             exit;
         }
 
-        try {
-            $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ? WHERE id = ?");
-
-            if ($updateStmt->execute([$newTitle, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $id])) {
-                $_SESSION["success"] = "Evento actualizado correctamente.";
-            } else {
-                $_SESSION["error"] = "Error al actualizar el evento.";
-            }
-        } catch (PDOException $e) {
-            $_SESSION["error"] = "Error al actualizar el evento: " . $e->getMessage();
+        $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ? WHERE id = ?");
+        if (!$updateStmt->execute([$newTitle, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $_SESSION["id"]])) {
+            $_SESSION["error"] = "Ha habido un error al actualizar el evento, contacte un administrador.";
+            //    header("Location: ../View/event.php");
+            exit;
         }
 
-        header("Location: ../View/event.php");
+        $readStmt = $this->conn->prepare("SELECT title, genre, synopsis, crew, eventDate, trailerVideo FROM events WHERE id = ?");
+
+        if (!$readStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error en la consulta";
+            //    header("Location: ../View/event.php");
+            exit;
+        }
+
+        $event = $readStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$event) {
+            $_SESSION["error"] = "Error inesperado (tu evento existe?)";
+            //    header("Location: ../View/profile.php");
+            exit;
+        }
+
+        // Update session variables to accomodate new values.
+        $_SESSION["title"] = $event["title"];
+        $_SESSION["genre"] = $event["genre"];
+        $_SESSION["synopsis"] = $event["synopsis"];
+        $_SESSION["crew"] = $event["crew"];
+        $_SESSION["eventDate"] = $event["eventDate"];
+        $_SESSION["trailerVideo"] = $event["trailerVideo"];
+        $_SESSION["success"] = "Evento actualizado correctamente!";
+        //    header("Location: ../View/profile.php");
         exit;
     }
 

@@ -63,8 +63,8 @@ session_start();
             $eventController = new EventController();
             $eventController->readAll();
 
-            if (isset($_SESSION['event_data'])) {
-                $event = $_SESSION['event_data'];
+            if (isset($_SESSION['eventDate'])) {
+                $event = $_SESSION['eventDate'];
                 echo '
         <div class="event-header">
           <h1>' . htmlspecialchars($event['title']) . '</h1>
@@ -94,7 +94,7 @@ session_start();
             <button class="buy-ticket">Comprar entrada</button>
           </div>
         </div>';
-                unset($_SESSION['event_data']);
+                unset($_SESSION['eventDate']);
             } else {
                 echo '<p class="error-message">Evento no encontrado</p>';
             }
