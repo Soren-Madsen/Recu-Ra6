@@ -190,8 +190,6 @@ class EventController
         exit;
     }
 
-   public function deleteAll (): void  {
-
-   }
+   
 
 }
