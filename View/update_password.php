@@ -1,7 +1,4 @@
-<?php
-include "../Controller/UserController.php";
-$redirect = $_SERVER["REQUEST_URI"]; 
-?>
+<?php include "../Controller/UserController.php"; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -23,7 +20,7 @@ $redirect = $_SERVER["REQUEST_URI"];
                 <i class="fas fa-bars"></i>
             </label>
             <div id="nav-left">
-                <a href="../index.php" id="home">Home</a>
+                <a href="#" id="home">Home</a>
                 <a href="./events.php" id="events">Eventos</a>
                 <a href="./calendar.php" id="calendar">Calendario</a>
                 <a href="#" id="news">Noticias</a>
@@ -48,11 +45,8 @@ $redirect = $_SERVER["REQUEST_URI"];
                     <!--placeholders-->
                     <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
                     <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
-                    <!--placeholders end-->
-                    <form method="POST" action="../Controller/logout.php">
-                        <input type="hidden" name="redirect" value="'.htmlspecialchars($redirect).'">
-                        <button class="user-action" type="submit">Cerrar Sesión</button>
-                    </form>';
+                    <!--placeholders-->
+                    <button class="user-action" id="logout"><a href="../Controller/logout.php">Cerrar sesión</a></button>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
                     <button class="user-action" id="login"><a href="./login.php">Login</a></button>';
@@ -66,8 +60,8 @@ $redirect = $_SERVER["REQUEST_URI"];
             <div id="sidebar">
                 <h2>Configuración</h2>
                 <ul>
-                    <li><a href="#" class="active">Datos Personales</a></li>
-                    <li><a href="./update_password.php">Cambiar Contraseña</a></li>
+                    <li><a href="./profile.php">Datos Personales</a></li>
+                    <li><a href="#" class="active">Cambiar Contraseña</a></li>
                     <li><a href="#">Notificaciones</a></li>
                     <li><a href="#">Seguridad</a></li>
                     <li><a href="../Controller/logout.php">Cerrar sesión</a></li>
@@ -103,8 +97,7 @@ $redirect = $_SERVER["REQUEST_URI"];
             </div>
         </div>';
         } else {
-            header('Location: login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
-            exit;
+            echo 'No has iniciado sesión.';
         } ?>
     </div>
 </body>

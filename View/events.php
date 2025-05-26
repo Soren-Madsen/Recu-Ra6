@@ -1,5 +1,39 @@
 <?php
+session_start();
 include "../Controller/UserController.php";
+include "../Controller/EventController.php";
+
+// DEBUG: Mostrar errores
+error_reporting(error_level: E_ALL);
+ini_set('display_errors', 1);
+
+echo "<!-- DEBUG: Iniciando página -->";
+
+// Instanciar el controlador de eventos para obtener los datos
+try {
+	$eventController = new EventController();
+	echo "<!-- DEBUG: EventController creado exitosamente -->";
+} catch (Exception $e) {
+	echo "<!-- DEBUG: Error creando EventController: " . $e->getMessage() . " -->";
+}
+
+$events = [];
+$resultsCount = 0;
+
+// Si se enviaron filtros, procesarlos
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["read-filters"])) {
+	echo "<!-- DEBUG: Procesando filtros -->";
+	$events = $eventController->read_filters();
+} else {
+	echo "<!-- DEBUG: Cargando todos los eventos -->";
+	// Cargar todos los eventos por defecto
+	$events = $eventController->readAll();
+}
+
+echo "<!-- DEBUG: Eventos obtenidos: " . count($events) . " -->";
+echo "<!-- DEBUG: Contenido de eventos: " . print_r($events, true) . " -->";
+
+$resultsCount = count($events);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +49,6 @@ include "../Controller/UserController.php";
 </head>
 
 <body>
-	<!-- Navbar completo -->
 	<header>
 		<ul id="navbar">
 			<h1 id="logo">CFC</h1>
@@ -24,9 +57,9 @@ include "../Controller/UserController.php";
 				<i class="fas fa-bars"></i>
 			</label>
 			<div id="nav-left">
-				<a href="../index.php" id="home">Home</a>
-				<a href="./events.php" id="events" style="background-color:#858585;">Eventos</a>
-				<a href="./calendar.php" id="calendar">Calendario</a>
+				<a href="/CFC/index.php" id="home">Home</a>
+				<a href="/CFC/View/events.php" id="events">Eventos</a>
+				<a href="/CFC/View/calendar.php" id="calendar">Calendario</a>
 				<a href="#" id="news">Noticias</a>
 				<a href="#" id="forums">Foros</a>
 			</div>
@@ -42,16 +75,18 @@ include "../Controller/UserController.php";
 				<h1 id="profile">Perfil</h1>
 				<?php if (isset($_SESSION["email"])) {
 					echo '
-					<h3 id="usr-email">' . $_SESSION['email'] . '</h3>
-					<img src="./files/img/usr_test.png" id="user-pfp">
-					<h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
-					<button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
-					<button class="user-action" id="useraction1"><a href="#">Mis entradas</a></button>
-					<button class="user-action" id="useraction2"><a href="#">Favoritos</a></button>
-					<button class="user-action" id="logout"><a href="../Controller/logout.php">Cerrar sesión</a></button>';
+                    <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
+                    <img src="./View/files/img/usr_test.png" id="user-pfp">
+                    <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
+                    <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
+                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <!--placeholders-->
+                    <button class="user-action" id="logout"><a href="./Controller/logout.php">Cerrar sesión</a></button>';
 				} else {
 					echo '<h1 id="not-logged">No has iniciado sesión</h1>
-					<button class="user-action" id="login"><a href="./login.php">Login</a></button>';
+                    <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
 				} ?>
 			</div>
 		</ul>
@@ -61,20 +96,26 @@ include "../Controller/UserController.php";
 	<div id="events-container">
 		<div id="sidebar">
 			<h2>Preferencias</h2>
-			<form id="filters-form" action="../Controller/EventController.php" method="POST">
+			<form id="filters-form" action="./events.php" method="POST">
 				<div class="filter-group">
 					<label for="genero">Género</label>
 					<select id="genero" name="genre" class="inputbox">
-						<option value="all">Todos los géneros</option>
+						<option value="">Todos los géneros</option>
 						<option value="drama">Drama</option>
 						<option value="comedia">Comedia</option>
+						<option value="accion">Acción</option>
+						<option value="ciencia ficcion">Ciencia Ficción</option>
+						<option value="terror">Terror</option>
 					</select>
 				</div>
 
 				<div class="filter-group">
 					<label for="ubicacion">Ubicación</label>
 					<select id="ubicacion" name="location" class="inputbox">
-						<option value="all">Todas las ubicaciones</option>
+						<option value="">Todas las ubicaciones</option>
+						<option value="barcelona">Barcelona</option>
+						<option value="madrid">Madrid</option>
+						<option value="valencia">Valencia</option>
 					</select>
 				</div>
 
@@ -90,71 +131,41 @@ include "../Controller/UserController.php";
 		<div id="content">
 			<div id="events-header">
 				<h1>EVENTOS</h1>
-				<div id="results-count">Mostrando 0 resultados</div>
+				<div id="results-count">Mostrando <?php echo $resultsCount; ?> resultados</div>
 			</div>
 
 			<div id="events-grid">
-				<!-- Aquí iría la carga dinámica con PHP -->
-				<div class="event-card">
-					<div class="event-poster">
-						<!-- <img src="..." alt="Evento"> -->
-						<div class="play-trailer">▶</div>
+				<?php if (!empty($events)): ?>
+					<?php foreach ($events as $event): ?>
+						<div class="event-card">
+							<div class="event-poster">
+								<?php if (!empty($event['poster_image'])): ?>
+									<img src="<?php echo htmlspecialchars($event['poster_image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
+								<?php else: ?>
+									<div style="background-color: #ddd; height: 300px; display: flex; align-items: center; justify-content: center;">
+										Sin imagen
+									</div>
+								<?php endif; ?>
+								<?php if (!empty($event['trailerVideo'])): ?>
+									<div class="play-trailer">▶</div>
+								<?php endif; ?>
+							</div>
+							<div class="event-info">
+								<h3><?php echo htmlspecialchars($event['title']); ?></h3>
+								<p class="event-genre">Género: <?php echo htmlspecialchars($event['genre']); ?></p>
+								<p class="event-date">Fecha: <?php echo htmlspecialchars($event['eventDate']); ?></p>
+								<?php if (!empty($event['synopsis'])): ?>
+									<p class="event-synopsis"><?php echo htmlspecialchars(substr($event['synopsis'], 0, 100)); ?>...</p>
+								<?php endif; ?>
+								<a class="more-info" href="./event.php?id=<?php echo $event['id']; ?>">Más información</a>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<div class="no-events">
+						<p>No se encontraron eventos que coincidan con los filtros seleccionados.</p>
 					</div>
-					<div class="event-info">
-						<h3>Título del Evento</h3>
-						<p class="event-genre">Género: Drama</p>
-						<p class="event-date">Fecha: 2023-11-15</p>
-						<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
-					</div>
-				</div>
-				<div class="event-card">
-					<div class="event-poster">
-						<!-- <img src="..." alt="Evento"> -->
-						<div class="play-trailer">▶</div>
-					</div>
-					<div class="event-info">
-						<h3>Título del Evento</h3>
-						<p class="event-genre">Género: Drama</p>
-						<p class="event-date">Fecha: 2023-11-15</p>
-						<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
-					</div>
-				</div>
-				<div class="event-card">
-					<div class="event-poster">
-						<!-- <img src="..." alt="Evento"> -->
-						<div class="play-trailer">▶</div>
-					</div>
-					<div class="event-info">
-						<h3>Título del Evento</h3>
-						<p class="event-genre">Género: Drama</p>
-						<p class="event-date">Fecha: 2023-11-15</p>
-						<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
-					</div>
-				</div>
-				<div class="event-card">
-					<div class="event-poster">
-						<!-- <img src="..." alt="Evento"> -->
-						<div class="play-trailer">▶</div>
-					</div>
-					<div class="event-info">
-						<h3>Título del Evento</h3>
-						<p class="event-genre">Género: Drama</p>
-						<p class="event-date">Fecha: 2023-11-15</p>
-						<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
-					</div>
-				</div>
-				<div class="event-card">
-					<div class="event-poster">
-						<!-- <img src="..." alt="Evento"> -->
-						<div class="play-trailer">▶</div>
-					</div>
-					<div class="event-info">
-						<h3>Título del Evento</h3>
-						<p class="event-genre">Género: Drama</p>
-						<p class="event-date">Fecha: 2023-11-15</p>
-						<a class="more-info" href="/CFC/View/event.php?id=<?php echo $event['id']; ?>">Más información</a>
-					</div>
-				</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
