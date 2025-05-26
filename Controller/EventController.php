@@ -185,14 +185,5 @@ class EventController
         exit;
     }
 
-    public function Update() : void 
-    {
-
-
-
-
-
-
-
-    }
+   
 }
