@@ -23,7 +23,6 @@ class UserController
 
     private function logout(): void
     {
-        session_start();
         session_unset();
         session_destroy();
         header("Location: ../View/login.php");
