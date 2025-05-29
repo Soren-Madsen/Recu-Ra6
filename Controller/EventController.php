@@ -143,11 +143,13 @@ class EventController
 
     public function getEventById($id)
     {
+        $_SESSION["debug"] = "Entered getEventById";
         try {
             $stmt = $this->conn->prepare("SELECT * FROM events WHERE id = ?");
             $stmt->execute([$id]);
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
+            $_SESSION["debug"] = "Returned fetch.";
         } catch (PDOException $e) {
             $_SESSION["error"] = "Error al obtener el evento: " . $e->getMessage();
             return null;
