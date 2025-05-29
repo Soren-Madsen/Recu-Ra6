@@ -107,18 +107,6 @@ $resultsCount = count($events);
 						<option value="terror">Terror</option>
 					</select>
 				</div>
-
-				<div class="filter-group">
-					<label for="ubicacion">Ubicación</label>
-					<select id="ubicacion" name="location" class="inputbox">
-						<option value="">Todas las ubicaciones</option>
-						<option value="barcelona">Barcelona</option>
-						<option value="lleida">Lleida</option>
-						<option value="girona">Girona</option>
-						<option value="tarragona">Tarragona</option>
-					</select>
-				</div>
-
 				<div class="filter-group">
 					<label for="fecha">Fechas</label>
 					<input type="date" id="fecha" name="date" class="inputbox">
