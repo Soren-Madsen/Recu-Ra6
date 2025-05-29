@@ -83,15 +83,15 @@ class UserController
         $_SESSION['username'] = $user[0]['name'];
         $_SESSION['email'] = $user[0]['email'];
         // admin true o false?
-        
+
         // Get redirect safely and make sure relative path is valid
-        $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : 'index.php';
+        $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : '/CFC/index.php';
 
         if (strpos($redirect, '/') !== 0 && !filter_var($redirect, FILTER_VALIDATE_URL)) {
-            $redirect = 'index.php'; // fallback if it's not a valid relative path
+            $redirect = '/CFC/index.php';
         }
 
-        header("Location: ". $redirect);
+        header("Location: " . $redirect);
         exit;
     }
 
