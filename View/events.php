@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "../Controller/UserController.php";
 include "../Controller/EventController.php";
 
