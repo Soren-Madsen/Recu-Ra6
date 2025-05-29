@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["read"])) {
@@ -43,7 +41,6 @@ class EventController
         try {
             $this->conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Connected to DB: " . $database . "<br>";
         } catch (PDOException $e) {
             die("Conexión fallida: " . $e->getMessage() . "\nContacte un administrador.");
         }

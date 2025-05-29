@@ -113,8 +113,9 @@ $resultsCount = count($events);
 					<select id="ubicacion" name="location" class="inputbox">
 						<option value="">Todas las ubicaciones</option>
 						<option value="barcelona">Barcelona</option>
-						<option value="madrid">Madrid</option>
-						<option value="valencia">Valencia</option>
+						<option value="lleida">Lleida</option>
+						<option value="girona">Girona</option>
+						<option value="tarragona">Tarragona</option>
 					</select>
 				</div>
 
@@ -144,9 +145,6 @@ $resultsCount = count($events);
 									<div style="background-color: #ddd; height: 300px; display: flex; align-items: center; justify-content: center;">
 										Sin imagen
 									</div>
-								<?php endif; ?>
-								<?php if (!empty($event['trailerVideo'])): ?>
-									<div class="play-trailer">▶</div>
 								<?php endif; ?>
 							</div>
 							<div class="event-info">
