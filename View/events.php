@@ -2,35 +2,15 @@
 include "../Controller/UserController.php";
 include "../Controller/EventController.php";
 
-// DEBUG: Mostrar errores
-error_reporting(error_level: E_ALL);
-ini_set('display_errors', 1);
-
-echo "<!-- DEBUG: Iniciando página -->";
-
-// Instanciar el controlador de eventos para obtener los datos
-try {
-	$eventController = new EventController();
-	echo "<!-- DEBUG: EventController creado exitosamente -->";
-} catch (Exception $e) {
-	echo "<!-- DEBUG: Error creando EventController: " . $e->getMessage() . " -->";
-}
-
 $events = [];
 $resultsCount = 0;
+$eventController = new EventController();
 
-// Si se enviaron filtros, procesarlos
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["read-filters"])) {
-	echo "<!-- DEBUG: Procesando filtros -->";
 	$events = $eventController->read_filters();
 } else {
-	echo "<!-- DEBUG: Cargando todos los eventos -->";
-	// Cargar todos los eventos por defecto
 	$events = $eventController->readAll();
 }
-
-echo "<!-- DEBUG: Eventos obtenidos: " . count($events) . " -->";
-echo "<!-- DEBUG: Contenido de eventos: " . print_r($events, true) . " -->";
 
 $resultsCount = count($events);
 ?>
@@ -140,7 +120,7 @@ $resultsCount = count($events);
 								<p class="event-genre">Género: <?php echo htmlspecialchars($event['genre']); ?></p>
 								<p class="event-date">Fecha: <?php echo htmlspecialchars($event['eventDate']); ?></p>
 								<?php if (!empty($event['synopsis'])): ?>
-									<p class="event-synopsis"><?php echo htmlspecialchars(substr($event['synopsis'], 0, 100)); ?>...</p>
+									<p class="event-synopsis"><?php echo htmlspecialchars(substr($event['synopsis'], 0, 100)); ?></p>
 								<?php endif; ?>
 								<a class="more-info" href="./event.php?id=<?php echo $event['id']; ?>">Más información</a>
 							</div>

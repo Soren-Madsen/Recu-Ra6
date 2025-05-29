@@ -199,6 +199,12 @@ select.inputbox {
 	margin-bottom: 20px;
 }
 
+.event-synopsis {
+	margin-bottom: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .more-info {
   	padding: 8px 15px;
   	background-color: #646464;
