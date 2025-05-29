@@ -55,7 +55,10 @@ $redirect = $_SERVER["REQUEST_URI"];
                     </form>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
-                    <button class="user-action" id="login"><a href="./login.php">Login</a></button>';
+                    <form method="POST" action="../Controller/logout.php">
+                        <input type="hidden" name="redirect" value="' . htmlspecialchars($redirect) . '">
+                        <button class="user-action" type="submit"><a href="./login.php">Login</a></button>
+                    </form>';
                 } ?>
             </div>
         </ul>

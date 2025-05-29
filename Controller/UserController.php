@@ -55,7 +55,7 @@ class UserController
         $email = $_POST['email'];
         $inputPassword = $_POST['password'];
 
-        $stmt = $this->conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT id, name, userrole, email, password FROM users WHERE email = ?");
 
         if (!$stmt->execute([$email])) {
             $_SESSION["error"] = "Error en la consulta";
@@ -63,31 +63,33 @@ class UserController
             exit;
         }
 
-        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (empty($user[0]["email"])) {
+        if (empty($user["email"])) {
             $_SESSION["error"] = "Usuario no encontrado";
             header("Location: ../View/login.php");
             exit;
         }
 
-        if (!password_verify($inputPassword, $user[0]["password"])) {
+        if (!password_verify($inputPassword, $user["password"])) {
             $_SESSION["error"] = "Contraseña incorrecta";
             header("Location: ../View/login.php");
             exit;
         }
 
+        session_regenerate_id(true);
+
         $_SESSION['logged'] = true;
-        $_SESSION['id'] = $user[0]['id'];
-        $_SESSION['username'] = $user[0]['name'];
-        $_SESSION['email'] = $user[0]['email'];
-        // admin true o false?
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['username'] = $user['name'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['user_role'] = $user['userrole'];
 
         // Get redirect safely and make sure relative path is valid
-        $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : '/CFC/index.php';
+        $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : '../index.php';
 
         if (strpos($redirect, '/') !== 0 && !filter_var($redirect, FILTER_VALIDATE_URL)) {
-            $redirect = '/CFC/index.php';
+            $redirect = '../index.php';
         }
 
         header("Location: " . $redirect);
@@ -100,6 +102,7 @@ class UserController
         $email = trim($_POST['email']);
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $date = date("Y-m-d");
+        $userrole = "user";
 
         if (empty($username) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION["error"] = "Datos inválidos.";
@@ -118,8 +121,8 @@ class UserController
         }
 
         // Insertar nuevo usuario
-        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, creation_date) VALUES (?, ?, ?, ?)");
-        if (!$stmt->execute([$username, $email, $password, $date])) {
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, userrole, creation_date) VALUES (?, ?, ?, ?, ?)");
+        if (!$stmt->execute([$username, $email, $password, $userrole, $date])) {
             $_SESSION["error"] = "Error al crear la cuenta.";
             header("Location: ../View/sign_in.php");
             exit;
