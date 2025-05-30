@@ -63,10 +63,10 @@ $redirect = $_SERVER["REQUEST_URI"];
             <div id="sidebar">
                 <h2>Configuración</h2>
                 <ul>
-                    <li><a href="#" class="active">Datos Personales</a></li>
+                    <li><a href="./profile.php">Datos Personales</a></li>
                     <li><a href="./update_password.php">Cambiar Contraseña</a></li>
                     <li><a href="#">Notificaciones</a></li>
-                    <li><a href="./security.php">Seguridad</a></li>
+                    <li><a href="#" class="active">Seguridad</a></li>
                     <li><a href="../Controller/logout.php">Cerrar sesión</a></li>
                 </ul>
             </div>
@@ -77,7 +77,8 @@ $redirect = $_SERVER["REQUEST_URI"];
                 </div>
 
                 <div class="profile-section">
-                    <h2>Datos Personales</h2>
+                    <h2>Seguridad - Eliminar Perfil</h2>
+                    <h4>Especifíca estos datos para confirmar que de verdad quieres borrar tu perfil.</h4><br>
                     ';
                     if (isset($_SESSION["error"])) {
                         echo '<div id="error">'.$_SESSION["error"].'</div>';
@@ -90,11 +91,21 @@ $redirect = $_SERVER["REQUEST_URI"];
                     echo '
                     <form id="profile-form" method="POST" action="../Controller/UserController.php">
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" class="inputbox" name="name" value="' . $_SESSION["username"] . '">
+                            <label for="nombre">E-Mail:</label>
+                            <input type="email" id="nombre" class="inputbox" name="email">
                         </div>
 
-                        <button type="submit" id="save-btn" name="update-profile">Guardar Cambios</button>
+                        <div class="form-group">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" id="passwd" class="inputbox" name="passwd">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmation">Como una última confirmación, especifica lo siguiente: "QUIERO ELIMINAR MI PERFIL '.$_SESSION["username"].'"</label>
+                            <input type="text" id="confirmation" class="inputbox" name="confirmation">
+                        </div>
+
+                        <button type="submit" id="del-btn" name="delete">ELIMINAR PERFIL</button>
                     </form>
                 </div>
             </div>

@@ -26,9 +26,16 @@ body {
 }
 
 #sidebar {
-  	width: 250px;
-  	padding: 30px;
-  	border-right: 1px solid #eee;
+	display: flex;
+	flex-direction: column;
+ 	height: calc(100vh - 120px);
+	width: 250px;
+	padding: 30px;
+	border-right: 1px solid #eee;
+	position: sticky;
+	top: 30px;
+	align-self: flex-start;
+	max-height: calc(100vh - 30px);
 }
 
 #sidebar h2 {
@@ -37,6 +44,12 @@ body {
   	margin-bottom: 20px;
   	padding-bottom: 10px;
   	border-bottom: 1px solid #eee;
+}
+
+#filters-form {
+  	flex-grow: 1;
+  	display: flex;
+  	flex-direction: column;
 }
 
 .filter-group {
@@ -97,6 +110,11 @@ select.inputbox {
 
 #filter-btn:hover {
   	background-color: #555;
+}
+
+#adminUtils {
+	margin-top: auto;
+	position: static;
 }
 
 #create {

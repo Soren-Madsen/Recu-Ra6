@@ -63,7 +63,7 @@
                     <li><a href="./profile.php">Datos Personales</a></li>
                     <li><a href="#" class="active">Cambiar Contraseña</a></li>
                     <li><a href="#">Notificaciones</a></li>
-                    <li><a href="#">Seguridad</a></li>
+                    <li><a href="./security.php">Seguridad</a></li>
                     <li><a href="../Controller/logout.php">Cerrar sesión</a></li>
                 </ul>
             </div>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="profile-section">
-                    <h2>Datos Personales</h2>
+                    <h2>Cambiar Contraseña</h2>
                     ';
                     if (isset($_SESSION["error"])) {
                         echo '<div id="error">'.$_SESSION["error"].'</div>';

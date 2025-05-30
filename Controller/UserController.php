@@ -141,51 +141,69 @@ class UserController
 
     public function delete(): void
     {
-        if (!isset($_SESSION['logged']) || $_SESSION['logged'] !== true) {
-            $_SESSION["error"] = "Debes iniciar sesión para realizar esta acción";
-            header("Location: ../View/login.php");
+        $user = $_SESSION["username"];
+        $email = trim($_POST["email"]);
+        $passwd = trim($_POST["passwd"]);
+        $confirmation = trim($_POST["confirmation"]);
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($passwd) || empty($confirmation)) {
+            $_SESSION["error"] = "Datos inválidos.";
+            header("Location: ../View/security.php");
             exit;
         }
 
-        $user_id = $_SESSION['id'];
-
-        if (!$user_id || $user_id <= 0) {
-            $_SESSION["error"] = "ID de usuario inválido";
-            header("Location: ../View/userprofile.php");
+        if ($confirmation != "QUIERO ELIMINAR MI PERFIL ".$user) {
+            $_SESSION["error"] = "Mensaje de confirmación introducido incorrectamente.";
+            header("Location: ../View/security.php");
             exit;
         }
-        try {
-            $this->conn->beginTransaction();
 
-            // Eliminar el usuario
-            $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
-            $stmt->execute([$user_id]);
-
-            // Verificar si se eliminó algún registro
-            if ($stmt->rowCount() === 0) {
-                $this->conn->rollBack();
-                $_SESSION["error"] = "Usuario no encontrado";
-                header("Location: ../View/userprofile.php");
-                exit;
-            }
-
-            $this->conn->commit();
-
-            // Si el usuario se eliminó a sí mismo, cerrar sesión
-            if ($user_id == $_SESSION['id']) {
-                $this->logout();
-            } else {
-                $_SESSION["success"] = "Usuario eliminado correctamente";
-                header("Location: ../View/admin/users.php");
-                exit;
-            }
-        } catch (PDOException $e) {
-            $this->conn->rollBack();
-            error_log("Error al eliminar usuario: " . $e->getMessage());
-            $_SESSION["error"] = "Error al eliminar el usuario";
-            header("Location: ../View/userprofile.php");
+        $readStmt = $this->conn->prepare("SELECT email FROM users WHERE id = ?");
+        if (!$readStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error inesperado, no se ha podido leer la base de datos.";
+            header("Location: ../View/security.php");
             exit;
         }
+
+        $emailDB = $readStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($email != $emailDB["email"]) {
+            $_SESSION["error"] = "Tu email no es el que has especificado.";
+            header("Location: ../View/security.php");
+            exit;
+        }
+
+        $readStmt = $this->conn->prepare("SELECT password FROM users WHERE id = ?");
+        if (!$readStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error inesperado, no se ha podido leer la base de datos.";
+            header("Location: ../View/security.php");
+            exit;
+        }
+
+        $passwdDB = $readStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$passwdDB) {
+            $_SESSION["error"] = "Error inesperado (el usuario existe?)";
+            header("Location: ../View/security.php");
+            exit;
+        }
+
+        if (!password_verify($passwd, $passwdDB["password"])) {
+            $_SESSION["error"] = "La contraseña actual es incorrecta.";
+            header("Location: ../View/security.php");
+            exit;
+        }
+
+        $delStmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+        if (!$delStmt->execute([$_SESSION["id"]])) {
+            $_SESSION["error"] = "Error inesperado, no se ha podido eliminar el perfil.";
+            header("Location: ../View/security.php");
+            exit;
+        }
+
+        session_unset();
+        session_destroy();
+        header("Location: ../index.php");
+        exit;
     }
 
     public function updateProfile(): void
