@@ -26,56 +26,65 @@ $resultsCount = count($events);
     <!-- Popup Overlay -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
-            <button class="close-btn" href="../events.php" onclick="closePopup()">&times; </button>
+            <button class="close-btn" onclick="closePopup()">&times;</button>
 
             <div class="popup-header">
                 <h2>🎯 Crear Nuevo Evento</h2>
             </div>
-
-            <div class="message" id="message"></div>
-
-            <!-- FORMULARIO SIMPLE - Se envía directamente al controlador -->
             <form action="../Controller/EventController.php" method="POST">
                 <!-- Campo oculto para indicar la acción -->
-                <input type="hidden" name="action" value="create_event">
+                <input type="hidden" name="create" value="1">
 
-                <div class="form-group">
-                    <label for="title">📝 Título del Evento *</label>
-                    <input type="text" id="title" name="title" required placeholder="Ej: Titanic">
-                </div>
+                <div class="message" id="message"></div>
 
-                <div class="form-group">
-                    <label for="genre">🎭 Género *</label>
-                    <input type="text" id="genre" name="genre" required placeholder="Ej: Drama">
-                </div>
+                <!-- FORMULARIO SIMPLE - Se envía directamente al controlador -->
+                <form action="../Controller/EventController.php" method="POST">
 
-                <div class="form-group">
-                    <label for="synopsis">📄 Synopsis</label>
-                    <textarea id="synopsis" name="synopsis" placeholder="Descripción evento/synopsis..."></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="title">📝 Título del Evento *</label>
+                        <input type="text" id="title" name="title" required placeholder="Ej: Titanic">
+                    </div>
 
-                <div class="form-group">
-                    <label for="crew">👥 Crew *</label>
-                    <input type="text" id="crew" name="crew" required placeholder="Ej: Soren Madsen">
-                </div>
+                    <div class="form-group">
+                        <label for="genre">🎭 Género *</label>
+                        <input type="text" id="genre" name="genre" required placeholder="Ej: Drama">
+                    </div>
 
-                <div class="form-group">
-                    <label for="eventDate">📅 Fecha del Evento *</label>
-                    <input type="date" id="eventDate" name="eventDate" required>
-                </div>
+                    <div class="form-group">
+                        <label for="synopsis">📄 Synopsis</label>
+                        <textarea id="synopsis" name="synopsis" placeholder="Descripción evento/synopsis..."></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="trailerVideo">🎬 Video</label>
-                    <input type="url" id="trailerVideo" name="trailerVideo" placeholder="https://youtube.com/watch?v=...">
-                </div>
+                    <div class="form-group">
+                        <label for="crew">👥 Crew *</label>
+                        <input type="text" id="crew" name="crew" required placeholder="Ej: Soren Madsen">
+                    </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">✨ Crear Evento</button>
-                    <a href="../events.php" class="btn btn-secondary" onclick="closePopup(); return false;">❌ Cancelar</a>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label for="eventDate">📅 Fecha del Evento *</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="trailerVideo">🎬 Video</label>
+                        <input type="url" id="trailerVideo" name="trailerVideo" placeholder="https://youtube.com/watch?v=...">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">✨ Crear Evento</button>
+                        <a href="./events.php" class="btn btn-secondary" onclick="closePopup(); return false;">❌ Cancelar</a>
+                    </div>
+                </form>
         </div>
     </div>
+
+    <?php foreach ($events as $event): ?>
+        <div class="event">
+            <h3><?= htmlspecialchars($event['title']) ?></h3>
+            <p><?= htmlspecialchars($event['genre']) ?> - <?= htmlspecialchars($event['eventDate']) ?></p>
+        </div>
+    <?php endforeach; ?>
+
     <script>
         // JavaScript mínimo solo para abrir/cerrar popup
         function openPopup() {
