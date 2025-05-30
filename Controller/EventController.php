@@ -235,4 +235,8 @@ class EventController
         header("Location: ../View/event.php");
         exit;
     }
+
+
+
+    
 }

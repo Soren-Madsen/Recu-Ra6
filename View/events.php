@@ -98,6 +98,10 @@ $resultsCount = count($events);
 
 				<button type="submit" name="read-filters" id="filter-btn">Aplicar Filtros</button>
 			</form>
+			<button type="submit" name="createEvent" id="createEvent-btn">Add event</button>
+			<button type="submit" name="updateEvent" id="updateEvent-btn">Update event</button>
+			<button type="submit" name="deleteEvent" id="deleteEvent-btn">Delete event</button>
+		
 		</div>
 
 		<div id="content">
