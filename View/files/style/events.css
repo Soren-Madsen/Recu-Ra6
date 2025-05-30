@@ -99,7 +99,7 @@ select.inputbox {
   	background-color: #555;
 }
 
-#createEvent-btn {
+#create {
 	padding: 14px 25px;
   	background-color: #646464;
   	color: white;
@@ -114,7 +114,7 @@ select.inputbox {
 	margin-top: 20px;
 }
 
-#updateEvent-btn {
+#update {
 	padding: 14px 25px;
   	background-color: #646464;
   	color: white;
@@ -129,7 +129,7 @@ select.inputbox {
 	margin-top: 10px;
 }
 
-#deleteEvent-btn {
+#delete {
 	padding: 14px 25px;
   	background-color: #646464;
   	color: white;

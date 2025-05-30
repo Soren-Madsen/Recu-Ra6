@@ -19,6 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p>create button is clicked.</p>";
         $user->create();
     }
+    
+    if (isset($_POST["update"])) {
+        $user = new EventController();
+        echo "<p>update button is clicked.</p>";
+        $user->update();
+    }
 
     if (isset($_POST["read_filters"])) {
         $user = new EventController();
