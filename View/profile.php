@@ -44,21 +44,15 @@ $redirect = $_SERVER["REQUEST_URI"];
                     <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
                     <img src="./files/img/usr_test.png" id="user-pfp">
                     <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
-                    <button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
+                    <a href="#"><button class="user-action" id="prof-redirect">Perfil</button></a>
+                    <a href="./update_password.php"><button class="user-action" id="passwd-redirect">Cambiar Contraseña</button></a>
                     <!--placeholders-->
-                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
-                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
-                    <!--placeholders end-->
-                    <form method="POST" action="../Controller/logout.php">
-                        <input type="hidden" name="redirect" value="'.htmlspecialchars($redirect).'">
-                        <button class="user-action" type="submit">Cerrar Sesión</button>
-                    </form>';
+                    <a href="#"><button class="user-action" id="useraction2">Lorem ipsum</button></a>
+                    <!--placeholders-->
+                    <a href="../Controller/logout.php"><button class="user-action" id="logout">Cerrar sesión</button></a>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
-                    <form method="POST" action="../Controller/logout.php">
-                        <input type="hidden" name="redirect" value="' . htmlspecialchars($redirect) . '">
-                        <button class="user-action" type="submit"><a href="./login.php">Login</a></button>
-                    </form>';
+                    <a href="./login.php"><button class="user-action" id="login">Login</button></a>';
                 } ?>
             </div>
         </ul>
@@ -84,23 +78,23 @@ $redirect = $_SERVER["REQUEST_URI"];
 
                 <div class="profile-section">
                     <h2>Datos Personales</h2>
-                    <form id="profile-form">
+                    ';
+                    if (isset($_SESSION["error"])) {
+                        echo '<div id="error">'.$_SESSION["error"].'</div>';
+                        unset($_SESSION["error"]);
+                    }
+                    if (isset($_SESSION["success"])) {
+                        echo '<div id="success">'.$_SESSION["success"].'</div>';
+                        unset($_SESSION["success"]);
+                    }
+                    echo '
+                    <form id="profile-form" method="POST" action="../Controller/UserController.php">
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" class="inputbox" name="username" value="' . $_SESSION["username"] . '">
+                            <input type="text" id="nombre" class="inputbox" name="name" value="' . $_SESSION["username"] . '">
                         </div>
 
-                        <div class="form-group">
-                            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                            <input type="date" id="fecha_nacimiento" class="inputbox">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telefono">Número de Teléfono:</label>
-                            <input type="tel" id="telefono" class="inputbox">
-                        </div>
-
-                        <button type="submit" id="save-btn">Guardar Cambios</button>
+                        <button type="submit" id="save-btn" name="update-profile">Guardar Cambios</button>
                     </form>
                 </div>
             </div>

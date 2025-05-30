@@ -20,7 +20,7 @@
                 <i class="fas fa-bars"></i>
             </label>
             <div id="nav-left">
-                <a href="#" id="home">Home</a>
+                <a href="../index.php" id="home">Home</a>
                 <a href="./events.php" id="events">Eventos</a>
                 <a href="./calendar.php" id="calendar">Calendario</a>
                 <a href="#" id="news">Noticias</a>
@@ -41,15 +41,15 @@
                     <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
                     <img src="./files/img/usr_test.png" id="user-pfp">
                     <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
-                    <button class="user-action" id="prof-redirect"><a href="./profile.php">Perfil</a></button>
+                    <a href="./profile.php"><button class="user-action" id="prof-redirect">Perfil</button></a>
+                    <a href="#"><button class="user-action" id="passwd-redirect">Cambiar Contraseña</button></a>
                     <!--placeholders-->
-                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
-                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <a href="#"><button class="user-action" id="useraction2">Lorem ipsum</button></a>
                     <!--placeholders-->
-                    <button class="user-action" id="logout"><a href="../Controller/logout.php">Cerrar sesión</a></button>';
+                    <a href="../Controller/logout.php"><button class="user-action" id="logout">Cerrar sesión</button></a>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
-                    <button class="user-action" id="login"><a href="./login.php">Login</a></button>';
+                    <a href="./login.php"><button class="user-action" id="login">Login</button></a>';
                 } ?>
             </div>
         </ul>
@@ -75,23 +75,33 @@
 
                 <div class="profile-section">
                     <h2>Datos Personales</h2>
-                    <form id="profile-form">
+                    ';
+                    if (isset($_SESSION["error"])) {
+                        echo '<div id="error">'.$_SESSION["error"].'</div>';
+                        unset($_SESSION["error"]);
+                    }
+                    if (isset($_SESSION["success"])) {
+                        echo '<div id="success">'.$_SESSION["success"].'</div>';
+                        unset($_SESSION["success"]);
+                    }
+                    echo '
+                    <form id="profile-form" method="POST" action="../Controller/UserController.php">
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" class="inputbox" name="username" value="' . $_SESSION["username"] . '">
+                            <label for="oldpassword">Contraseña actual:</label>
+                            <input type="password" id="oldpassword" class="inputbox" name="oldpassword">
                         </div>
 
                         <div class="form-group">
-                            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                            <input type="date" id="fecha_nacimiento" class="inputbox">
+                            <label for="newpassword">Contraseña nueva:</label>
+                            <input type="password" id="newpassword" class="inputbox" name="newpassword">
                         </div>
 
                         <div class="form-group">
-                            <label for="telefono">Número de Teléfono:</label>
-                            <input type="tel" id="telefono" class="inputbox">
+                            <label for="confirm">Confirma la nueva contraseña:</label>
+                            <input type="password" id="confirm" class="inputbox" name="confirm">
                         </div>
 
-                        <button type="submit" id="save-btn">Guardar Cambios</button>
+                        <button type="submit" id="save-btn" name="update-password">Actualizar contraseña</button>
                     </form>
                 </div>
             </div>

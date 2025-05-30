@@ -53,15 +53,15 @@ include "./Controller/UserController.php";
                     <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
                     <img src="./View/files/img/usr_test.png" id="user-pfp">
                     <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
-                    <button class="user-action" id="prof-redirect"><a href="./View/profile.php">Perfil</a></button>
+                    <a href="./View/profile.php"><button class="user-action" id="prof-redirect">Perfil</button></a>
+                    <a href="./View/update_password.php"><button class="user-action" id="passwd-redirect">Cambiar Contraseña</button></a>
                     <!--placeholders-->
-                    <button class="user-action" id="useraction1"><a href="#">Lorem ipsum</a></button>
-                    <button class="user-action" id="useraction2"><a href="#">Lorem ipsum</a></button>
+                    <a href="#"><button class="user-action" id="useraction2">Lorem ipsum</button></a>
                     <!--placeholders-->
-                    <button class="user-action" id="logout"><a href="./Controller/logout.php">Cerrar sesión</a></button>';
+                    <a href="./Controller/logout.php"><button class="user-action" id="logout">Cerrar sesión</button></a>';
                 } else {
                     echo '<h1 id="not-logged">No has iniciado sesión</h1>
-                    <button class="user-action" id="login"><a href="./View/login.php">Login</a></button>';
+                    <a href="./View/login.php"><button class="user-action" id="login">Login</button></a>';
                 } ?>
             </div>
         </ul>

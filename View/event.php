@@ -14,7 +14,7 @@ include "../Controller/EventController.php";
 </head>
 
 <body>
-    <header>
+<header>
         <ul id="navbar">
             <h1 id="logo">CFC</h1>
             <input type="checkbox" id="check">
@@ -37,8 +37,23 @@ include "../Controller/EventController.php";
                 <button type="submit"><i class="fa fa-search" style="color:white"></i></button>
             </div>
             <div id="user-info">
-                <h1 id="profile">Perfil</h1date
-                        </div>
+                <h1 id="profile">Perfil</h1>
+                <?php if (isset($_SESSION["email"])) {
+                    echo '
+                    <h3 id="usr-email">' . $_SESSION['email'] . '</h3>
+                    <img src="./files/img/usr_test.png" id="user-pfp">
+                    <h1 id="usr-name">Bienvenido, ' . $_SESSION['username'] . '!</h1>
+                    <a href="./profile.php"><button class="user-action" id="prof-redirect">Perfil</button></a>
+                    <a href="./update_password.php"><button class="user-action" id="passwd-redirect">Cambiar Contraseña</button></a>
+                    <!--placeholders-->
+                    <a href="#"><button class="user-action" id="useraction2">Lorem ipsum</button></a>
+                    <!--placeholders-->
+                    <a href="../Controller/logout.php"><button class="user-action" id="logout">Cerrar sesión</button></a>';
+                } else {
+                    echo '<h1 id="not-logged">No has iniciado sesión</h1>
+                    <a href="./login.php"><button class="user-action" id="login">Login</button></a>';
+                } ?>
+            </div>
         </ul>
     </header>
 

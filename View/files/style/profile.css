@@ -49,25 +49,28 @@ body {
 }
 
 #sidebar li a {
+    display: inline-block;
+    position: relative;
     color: #555;
     text-decoration: none;
     font-size: 15px;
-    transition: 0.2s;
+    transition: color 0.2s;
+    padding-bottom: 4px;
 }
 
 #sidebar li a:not(.active)::after {
-    content: "";
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 1px;
-    background: #646464;
-    transition: transform 0.2s ease-in-out;
-    transform: scale(0);
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #aaaaaa;
+    transition: width 0.2s ease-in;
 }
 
-#sidebar a:not(.active):hover::after {
-    transform: scale(1);
+#sidebar li a:not(.active):hover::after {
+    width: 100%;
 }
 
 .active {
@@ -151,6 +154,28 @@ select.inputbox {
 
 #save-btn:hover {
     background-color: #555;
+}
+
+#error {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    text-align: center;
+}
+
+#success {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #53a942;
+  background-color: #def2df;
+  border-color: #ccebcc;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

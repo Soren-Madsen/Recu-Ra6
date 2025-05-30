@@ -6,6 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["login"])) {
         $user->login();
     }
+    if (isset($_POST["update-profile"])) {
+        $user->updateProfile();
+    }
+    if (isset($_POST["update-password"])) {
+        $user->updatePasswd();
+    }
     if (isset($_POST["logout"])) {
         $user->logout();
     }
@@ -185,16 +191,15 @@ class UserController
     public function updateProfile(): void
     {
         $newName = trim($_POST["name"]);
-        $newEmail = trim($_POST["email"]);
 
-        if (empty($newName) || !filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+        if (empty($newName)) {
             $_SESSION["error"] = "Datos invalidos.";
             header("../View/profile.php");
             exit;
         }
 
-        $updateStmt = $this->conn->prepare("UPDATE users SET name = ?, email = ? WHERE id = ?");
-        if (!$updateStmt->execute([$newName, $newEmail, $_SESSION["id"]])) {
+        $updateStmt = $this->conn->prepare("UPDATE users SET name = ? WHERE id = ?");
+        if (!$updateStmt->execute([$newName, $_SESSION["id"]])) {
             $_SESSION["error"] = "Ha habido un error al actualizar el usuario, contacte un administrador.";
             header("Location: ../View/profile.php");
             exit;
@@ -217,7 +222,6 @@ class UserController
 
         // Update session variables to accomodate new values.
         $_SESSION["username"] = $user["name"];
-        $_SESSION["email"] = $user["email"];
         $_SESSION["success"] = "Perfil actualizado correctamente!";
         header("Location: ../View/profile.php");
         exit;
@@ -225,44 +229,51 @@ class UserController
 
     public function updatePasswd(): void
     {
-        $newPasswd = trim(password_hash($_POST["passwd"], PASSWORD_DEFAULT)) ?? '';
         $oldPasswd = trim($_POST["oldpassword"]) ?? '';
+        $newPasswd = trim(password_hash($_POST["newpassword"], PASSWORD_DEFAULT)) ?? '';
+        $confirmPasswd = $_POST["confirm"];
 
-        if (empty($oldPasswordInput) || empty($newPasswordInput)) {
+        if ($_POST["newpassword"] != $confirmPasswd) {
+            $_SESSION["error"] = "ERROR: Las contraseñas no coinciden!";
+            header("Location: ../View/update_password.php");
+            exit;
+        }
+
+        if (empty($oldPasswd)) {
             $_SESSION["error"] = "Datos invalidos.";
-            header("Location: ../View/password_update.php");
+            header("Location: ../View/update_password.php");
             exit;
         }
 
         $readStmt = $this->conn->prepare("SELECT password FROM users WHERE id = ?");
         if (!$readStmt->execute([$_SESSION["id"]])) {
             $_SESSION["error"] = "Error inesperado, no se ha podido leer la base de datos.";
-            header("Location: ../View/password_update.php");
+            header("Location: ../View/update_password.php");
             exit;
         }
 
         $oldPasswdDB = $readStmt->fetch(PDO::FETCH_ASSOC);
         if (!$oldPasswdDB) {
             $_SESSION["error"] = "Error inesperado (el usuario existe?)";
-            header("Location: ../View/password_update.php");
+            header("Location: ../View/update_password.php");
             exit;
         }
 
         if (!password_verify($oldPasswd, $oldPasswdDB["password"])) {
-            $_SESSION["error"] = "La contraseñas antiguas no coinciden.";
-            header("Location: ../View/password_update.php");
+            $_SESSION["error"] = "La contraseña actual es incorrecta.";
+            header("Location: ../View/update_password.php");
             exit;
         }
 
         $updateStmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
         if (!$updateStmt->execute([$newPasswd, $_SESSION["id"]])) {
             $_SESSION["error"] = "Ha habido un error al guardar la nueva contraseña, contacte un administrador.";
-            header("Location: ../View/password_update.php");
+            header("Location: ../View/update_password.php");
             exit;
         }
 
         $_SESSION["success"] = "Contraseña actualizada exitosamente.";
-        header("Location: ../View/password_update.php");
+        header("Location: ../View/update_password.php");
         exit;
     }
 }
