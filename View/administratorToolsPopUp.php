@@ -19,14 +19,58 @@ $resultsCount = count($events);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Eventos</title>
+    <style>
+        /* Oculta el popup por defecto */
+        #popupOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Muestra el popup cuando tiene la clase active */
+        #popupOverlay.active {
+            display: flex;
+        }
+
+        /* Estilo del cuadro del popup */
+        .popup {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* Botón de cierre (la X) */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- Popup Overlay -->
+    <button onclick="openPopup()">➕ Crear Evento</button>
+
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
-            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <button type="button" class="close-btn" onclick="closePopup()">&times;</button>
 
             <div class="popup-header">
                 <h2>🎯 Crear Nuevo Evento</h2>
@@ -46,7 +90,7 @@ $resultsCount = count($events);
                     </div>
 
                     <div class="form-group">
-                        <label for="genre">🎭 Género *</label>
+                        <label for="genre">🎭 Género</label>
                         <input type="text" id="genre" name="genre" required placeholder="Ej: Drama">
                     </div>
 
@@ -56,12 +100,12 @@ $resultsCount = count($events);
                     </div>
 
                     <div class="form-group">
-                        <label for="crew">👥 Crew *</label>
+                        <label for="crew">👥 Crew</label>
                         <input type="text" id="crew" name="crew" required placeholder="Ej: Soren Madsen">
                     </div>
 
                     <div class="form-group">
-                        <label for="eventDate">📅 Fecha del Evento *</label>
+                        <label for="eventDate">📅 Fecha del Evento</label>
                         <input type="date" id="eventDate" name="eventDate" required>
                     </div>
 
@@ -72,7 +116,7 @@ $resultsCount = count($events);
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">✨ Crear Evento</button>
-                        <a href="./events.php" class="btn btn-secondary" onclick="closePopup(); return false;">❌ Cancelar</a>
+                        <button><a type="submit" href="./events.php" class="btn btn-secondary" onclick="closePopup(); return false;">❌ Cancelar</a></button>
                     </div>
                 </form>
         </div>

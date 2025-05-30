@@ -26,6 +26,49 @@ $resultsCount = count($events);
 	<link rel="stylesheet" href="./files/style/events.css">
 
 	<script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
+	<style>
+		/* Oculta el popup por defecto */
+		#popupOverlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+		}
+
+		/* Muestra el popup cuando tiene la clase active */
+		#popupOverlay.active {
+			display: flex;
+		}
+
+		/* Estilo del cuadro del popup */
+		.popup {
+			background: #fff;
+			padding: 2rem;
+			border-radius: 10px;
+			width: 500px;
+			max-width: 90%;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+			position: relative;
+		}
+
+		/* Botón de cierre (la X) */
+		.close-btn {
+			position: absolute;
+			top: 10px;
+			right: 15px;
+			font-size: 24px;
+			background: none;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -99,10 +142,18 @@ $resultsCount = count($events);
 				<button type="submit" name="read-filters" id="filter-btn">Aplicar Filtros</button>
 			</form>
 			<div id="adminUtils">
-				<form id = "adminEvents" action="administratorToolsPopUp.php" method="POST">
-					<button type="submit" name="createEvent" id="create">Add event</button>
-					<button type="submit" name="updateEvent" id="update">Update event</button>
-					<button type="submit" name="deleteEvent" id="delete">Delete event</button>
+				<button type="button" id="create" onclick="openPopup()">Add event</button>
+
+				<form id="updateEventForm" action="../Controller/EventController.php" method="POST" style="margin-top: 10px;">
+					<input type="hidden" name="updateEvent" value="1">
+					<!-- Agregar campo para eventId si es necesario -->
+					<button type="submit" id="update">Update event</button>
+				</form>
+
+				<form id="deleteEventForm" action="../Controller/EventController.php" method="POST" style="margin-top: 10px;">
+					<input type="hidden" name="deleteEvent" value="1">
+					<!-- Agregar campo para eventId si es necesario -->
+					<button type="submit" id="delete">Delete event</button>
 				</form>
 			</div>
 		</div>
@@ -145,6 +196,82 @@ $resultsCount = count($events);
 			</div>
 		</div>
 	</div>
+
+	<!-- Popup Crear Evento -->
+	<div class="popup-overlay" id="popupOverlay">
+		<div class="popup">
+			<button type="button" class="close-btn" onclick="closePopup()">&times;</button>
+			<div class="popup-header">
+				<h2>🎯 Crear Nuevo Evento</h2>
+			</div>
+
+			<form action="../Controller/EventController.php" method="POST">
+				<input type="hidden" name="create" value="1">
+
+				<div class="form-group">
+					<label for="title">📝 Título del Evento *</label>
+					<input type="text" id="title" name="title" required placeholder="Ej: Titanic">
+				</div>
+
+				<div class="form-group">
+					<label for="genre">🎭 Género</label>
+					<input type="text" id="genre" name="genre" required placeholder="Ej: Drama">
+				</div>
+
+				<div class="form-group">
+					<label for="synopsis">📄 Synopsis</label>
+					<textarea id="synopsis" name="synopsis" placeholder="Descripción evento/synopsis..."></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="crew">👥 Crew</label>
+					<input type="text" id="crew" name="crew" required placeholder="Ej: Soren Madsen">
+				</div>
+
+				<div class="form-group">
+					<label for="eventDate">📅 Fecha del Evento</label>
+					<input type="date" id="eventDate" name="eventDate" required>
+				</div>
+
+				<div class="form-group">
+					<label for="trailerVideo">🎬 Video</label>
+					<input type="url" id="trailerVideo" name="trailerVideo" placeholder="https://youtube.com/watch?v=...">
+				</div>
+
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">✨ Crear Evento</button>
+					<button type="button" class="btn btn-secondary" onclick="closePopup()">❌ Cancelar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		// JavaScript mínimo solo para abrir/cerrar popup
+		function openPopup() {
+			document.getElementById('popupOverlay').classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closePopup() {
+			document.getElementById('popupOverlay').classList.remove('active');
+			document.body.style.overflow = 'auto';
+		}
+
+		// Cerrar popup al hacer clic fuera
+		document.getElementById('popupOverlay').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closePopup();
+			}
+		});
+
+		// Cerrar popup con ESC
+		document.addEventListener('keydown', function(e) {
+			if (e.key === 'Escape') {
+				closePopup();
+			}
+		});
+	</script>
 </body>
 
 <script src="https://kit.fontawesome.com/e1205d9581.js" crossorigin="anonymous"></script>
