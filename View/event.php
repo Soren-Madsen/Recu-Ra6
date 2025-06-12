@@ -81,6 +81,9 @@ include "../Controller/EventController.php";
                 </div>
           
                 <div class="event-info">
+                    <h2>Avaliable</h2>
+                    <p>' . nl2br(htmlspecialchars($event['avaliable'])) . '</p>
+
                     <h2>Sinopsis</h2>
                     <p>' . nl2br(htmlspecialchars($event['synopsis'])) . '</p>
                     

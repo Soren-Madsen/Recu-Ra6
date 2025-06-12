@@ -114,6 +114,11 @@ $resultsCount = count($events);
                         <input type="url" id="trailerVideo" name="trailerVideo" placeholder="https://youtube.com/watch?v=...">
                     </div>
 
+                    <div class="form-group">
+                        <label for="avaliable"> Disponible</label>
+                        <input type="boolean" id="avaliable" name="avaliable" required>
+                    </div>
+
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">✨ Crear Evento</button>
                         <button><a type="submit" href="./events.php" class="btn btn-secondary" onclick="closePopup(); return false;">❌ Cancelar</a></button>
@@ -125,6 +130,7 @@ $resultsCount = count($events);
     <?php foreach ($events as $event): ?>
         <div class="event">
             <h3><?= htmlspecialchars($event['title']) ?></h3>
+            <h2><?= htmlspecialchars($event['avaliable']) ?></h2>
             <p><?= htmlspecialchars($event['genre']) ?> - <?= htmlspecialchars($event['eventDate']) ?></p>
         </div>
     <?php endforeach; ?>

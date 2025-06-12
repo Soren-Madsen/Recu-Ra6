@@ -60,8 +60,9 @@ class EventController
         $crew = trim($_POST['crew']);
         $eventDate = trim($_POST['eventDate']);
         $trailerVideo = trim($_POST['trailerVideo']);
+        $avaliable = trim($_POST['avaliable']);
 
-        if (empty($title) || empty($eventDate)) {
+        if (empty($title) || empty($eventDate) || empty($avaliable)) {
             $_SESSION["error"] = "Datos inválidos.";
             header("Location: ../View/event.php");
             exit;
@@ -70,7 +71,7 @@ class EventController
         $checkStmt = $this->conn->prepare("SELECT title FROM events WHERE title = ?");
         $checkStmt->execute([$title]);
 
-        // Verificar si el correo ya existe
+        // Verificar si ya existe
         if ($checkStmt->rowCount() > 0) {
             $_SESSION["error"] = "Ya existe un evento con este nombre.";
             header("Location: ../View/event.php");
@@ -78,8 +79,8 @@ class EventController
         }
 
         // Insertar nuevo evento
-        $createStmt = $this->conn->prepare("INSERT INTO events (title, genre, synopsis, crew, eventDate, trailerVideo) VALUES (?, ?, ?, ?, ?, ?)");
-        if (!$createStmt->execute([$title, $genre, $synopsis, $crew, $eventDate, $trailerVideo])) {
+        $createStmt = $this->conn->prepare("INSERT INTO events (title, genre, synopsis, crew, eventDate, trailerVideo, avaliable) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if (!$createStmt->execute([$title, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $avaliable])) {
             $_SESSION["error"] = "Hubo un error en crear el evento, acude el equipo administrativo.";
             header("Location: ../View/event.php");
             exit;
@@ -114,10 +115,16 @@ class EventController
         $genre = !empty($_POST["genre"]) ? trim($_POST["genre"]) : null;
         $location = !empty($_POST["location"]) ? trim(string: $_POST["location"]) : null;
         $date = !empty($_POST["date"]) ? trim($_POST["date"]) : null;
+        $avaliable = !empty($_POST["avaliable"]) ? trim($_POST["avaliable"]) : null;
 
         try {
             $query = "SELECT * FROM events WHERE 1 = 1";
             $params = [];
+
+            if ($avaliable) {
+                $query .= " AND avaliable = ?";
+                $params[] = $avaliable;
+            }
 
             if ($genre) {
                 $query .= " AND genre = ?";
@@ -155,7 +162,6 @@ class EventController
             $stmt->execute([$id]);
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
-            $_SESSION["debug"] = "Returned fetch.";
         } catch (PDOException $e) {
             $_SESSION["error"] = "Error al obtener el evento: " . $e->getMessage();
             return null;
@@ -171,6 +177,7 @@ class EventController
         $crew = trim($_POST['crew']);
         $eventDate = trim($_POST['eventDate']);
         $trailerVideo = trim($_POST['trailerVideo']);
+        $avaliable = trim($_POST['avaliable']);
 
         if (empty($id) || empty($newTitle) || empty($eventDate)) {
             $_SESSION["error"] = "Datos inválidos.";
@@ -178,14 +185,14 @@ class EventController
             exit;
         }
 
-        $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ? WHERE id = ?");
-        if (!$updateStmt->execute([$newTitle, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $_SESSION["id"]])) {
+        $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ?, avalibale = ? WHERE id = ?");
+        if (!$updateStmt->execute([$newTitle, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $avaliable, $_SESSION["id"]])) {
             $_SESSION["error"] = "Ha habido un error al actualizar el evento, contacte un administrador.";
             //    header("Location: ../View/event.php");
             exit;
         }
 
-        $readStmt = $this->conn->prepare("SELECT title, genre, synopsis, crew, eventDate, trailerVideo FROM events WHERE id = ?");
+        $readStmt = $this->conn->prepare("SELECT title, genre, synopsis, crew, eventDate, trailerVideo, avaliable FROM events WHERE id = ?");
 
         if (!$readStmt->execute([$_SESSION["id"]])) {
             $_SESSION["error"] = "Error en la consulta";
@@ -207,6 +214,7 @@ class EventController
         $_SESSION["crew"] = $event["crew"];
         $_SESSION["eventDate"] = $event["eventDate"];
         $_SESSION["trailerVideo"] = $event["trailerVideo"];
+        $_SESSION["avaliable"] = $event["avaliable"];
         $_SESSION["success"] = "Evento actualizado correctamente!";
         //    header("Location: ../View/profile.php");
         exit;

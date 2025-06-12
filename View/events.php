@@ -234,7 +234,12 @@ $resultsCount = count($events);
 					<label for="trailerVideo">🎬 Video</label>
 					<input type="url" id="trailerVideo" name="trailerVideo" placeholder="https://youtube.com/watch?v=...">
 				</div>
-
+				
+				<div class="form-group">
+					<label for="avaliable"> Disponible</label>
+					<input type="boolean" id="avaliable" name="avaliable" required>
+				</div>
+				
 				<div class="form-actions">
 					<button type="submit" class="btn btn-primary">✨ Crear Evento</button>
 					<button type="button" class="btn btn-secondary" onclick="closePopup()">❌ Cancelar</button>
