@@ -185,7 +185,7 @@ class EventController
             exit;
         }
 
-        $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ?, avalibale = ? WHERE id = ?");
+        $updateStmt = $this->conn->prepare("UPDATE events SET title = ?, genre = ?, synopsis = ?, crew = ?, eventDate = ?, trailerVideo = ?, avaliable = ? WHERE id = ?");
         if (!$updateStmt->execute([$newTitle, $genre, $synopsis, $crew, $eventDate, $trailerVideo, $avaliable, $_SESSION["id"]])) {
             $_SESSION["error"] = "Ha habido un error al actualizar el evento, contacte un administrador.";
             //    header("Location: ../View/event.php");
