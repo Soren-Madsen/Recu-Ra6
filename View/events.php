@@ -176,6 +176,7 @@ $resultsCount = count($events);
 							</div>
 							<div class="event-info">
 								<h3><?php echo htmlspecialchars($event['title']); ?></h3>
+								<p class="avaliable">Disponible: <?php echo htmlspecialchars($event['avaliable']); ?></p>
 								<p class="event-genre">Género: <?php echo htmlspecialchars($event['genre']); ?></p>
 								<p class="event-date">Fecha: <?php echo htmlspecialchars($event['eventDate']); ?></p>
 								<?php if (!empty($event['synopsis'])): ?>
